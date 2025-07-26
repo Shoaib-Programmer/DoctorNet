@@ -11,7 +11,7 @@ function Hero() {
               <h1 className="text-5xl md:text-7xl max-w-lg tracking-tighter text-left font-regular">
                 DoctorNet
               </h1>
-              <p className="text-xl leading-relaxed tracking-tight text-muted-foreground max-w-md text-left">
+              <p className="text-xl leading-relaxed tracking-tight max-w-md text-left text-slate-300">
                 Managing a small business today is already tough. Avoid further
                 complications by ditching outdated, tedious trade methods.
               </p>
