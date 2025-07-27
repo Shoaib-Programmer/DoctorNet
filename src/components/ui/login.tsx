@@ -31,7 +31,7 @@ const Login1 = ({
   signupUrl = "https://shadcnblocks.com",
 }: Login1Props) => {
   return (
-    <section className="bg-muted bg-background h-screen">
+    <section className="bg-muted h-screen">
       <div className="flex h-full items-center justify-center">
         <div className="border-muted bg-background flex w-full max-w-sm flex-col items-center gap-y-8 rounded-md border px-6 py-12 shadow-md">
           <div className="flex flex-col items-center gap-y-2">
