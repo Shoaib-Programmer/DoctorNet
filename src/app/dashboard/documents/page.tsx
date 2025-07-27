@@ -4,28 +4,53 @@ import React, { useState } from "react";
 import FloatingActionMenu from "@/components/ui/floating-action-menu";
 import { DocumentList } from "@/components/documents/DocumentList";
 import { UploadDialog } from "@/components/documents/UploadDialog";
-import { Upload, FileText, Camera, Scan } from "lucide-react";
+import { MedicalRecordsList } from "@/components/medical-records/MedicalRecordsList";
+import { MedicalRecordSelector } from "@/components/medical-records/MedicalRecordSelector";
+import { MedicalRecordForm } from "@/components/medical-records/MedicalRecordForm";
+import { Upload, FileText, Camera, Scan, Activity } from "lucide-react";
 import { api } from "@/trpc/react";
 import { toast } from "sonner";
 import type { Document } from "@prisma/client";
 
 export default function DocumentsPage() {
 	const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
-	const [selectedDocument, setSelectedDocument] = useState<Document | null>(null);
+	const [selectedDocument, setSelectedDocument] = useState<Document | null>(
+		null,
+	);
+	const [activeTab, setActiveTab] = useState<"documents" | "records">(
+		"documents",
+	);
+
+	// Medical Records state
+	const [recordSelectorOpen, setRecordSelectorOpen] = useState(false);
+	const [recordFormOpen, setRecordFormOpen] = useState(false);
+	const [selectedRecordType, setSelectedRecordType] = useState<string | null>(
+		null,
+	);
+	const [editingRecord, setEditingRecord] = useState<any>(null);
 
 	// Get documents from tRPC
-	const { data: documents = [], refetch } = api.document.getAll.useQuery();
+	const { data: documents = [], refetch: refetchDocuments } =
+		api.document.getAll.useQuery();
 	const deleteMutation = api.document.delete.useMutation({
 		onSuccess: () => {
 			toast.success("Document deleted successfully");
-			refetch();
+			refetchDocuments();
 		},
 		onError: (error) => {
 			toast.error(error.message || "Failed to delete document");
 		},
 	});
 
-	const handleUpload = async (file: File, description: string, category: string) => {
+	// Get medical records from tRPC
+	const { data: medicalRecords = [], refetch: refetchMedicalRecords } =
+		api.medicalRecord.getAll.useQuery();
+
+	const handleUpload = async (
+		file: File,
+		description: string,
+		category: string,
+	) => {
 		try {
 			const formData = new FormData();
 			formData.append("file", file);
@@ -44,7 +69,7 @@ export default function DocumentsPage() {
 
 			const result = await response.json();
 			toast.success("Document uploaded successfully");
-			refetch(); // Refresh the documents list
+			refetchDocuments(); // Refresh the documents list
 		} catch (error) {
 			console.error("Upload error:", error);
 			toast.error(error instanceof Error ? error.message : "Upload failed");
@@ -63,6 +88,18 @@ export default function DocumentsPage() {
 		window.open(document.url, "_blank");
 	};
 
+	const handleRecordTypeSelect = (recordType: string) => {
+		setSelectedRecordType(recordType);
+		setEditingRecord(null);
+		setRecordFormOpen(true);
+	};
+
+	const handleEditRecord = (recordType: string, record: any) => {
+		setSelectedRecordType(recordType);
+		setEditingRecord(record);
+		setRecordFormOpen(true);
+	};
+
 	const menuOptions = [
 		{
 			label: "Upload Document",
@@ -71,21 +108,12 @@ export default function DocumentsPage() {
 			},
 			Icon: <Upload className="w-4 h-4" />,
 		},
-		// {
-		// 	label: "Scan Document",
-		// 	onClick: () => {
-		// 		console.log("Scan document clicked");
-		// 		toast.info("Document scanning feature coming soon!");
-		// 	},
-		// 	Icon: <Scan className="w-4 h-4" />,
-		// },
 		{
 			label: "New Record",
 			onClick: () => {
-				console.log("New record clicked");
-				toast.info("New medical record feature coming soon!");
+				setRecordSelectorOpen(true);
 			},
-			Icon: <FileText className="w-4 h-4" />,
+			Icon: <Activity className="w-4 h-4" />,
 		},
 		{
 			label: "Take Photo",
@@ -106,15 +134,47 @@ export default function DocumentsPage() {
 						Medical Records
 					</h1>
 					<p className="text-slate-600 dark:text-slate-400 mb-8">
-						Manage and organize your medical documents and records
+						Manage and organize your medical documents and health records
 					</p>
 
-					{/* Documents List */}
-					<DocumentList
-						documents={documents}
-						onDelete={handleDelete}
-						onView={handleView}
-					/>
+					{/* Tab Navigation */}
+					<div className="flex gap-1 mb-6 bg-slate-100 dark:bg-slate-800 p-1 rounded-lg w-fit">
+						<button
+							onClick={() => setActiveTab("documents")}
+							className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+								activeTab === "documents"
+									? "bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 shadow-sm"
+									: "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100"
+							}`}
+						>
+							Documents ({documents.length})
+						</button>
+						<button
+							onClick={() => setActiveTab("records")}
+							className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+								activeTab === "records"
+									? "bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 shadow-sm"
+									: "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100"
+							}`}
+						>
+							Health Records ({medicalRecords.length})
+						</button>
+					</div>
+
+					{/* Content based on active tab */}
+					{activeTab === "documents" ? (
+						<DocumentList
+							documents={documents}
+							onDelete={handleDelete}
+							onView={handleView}
+						/>
+					) : (
+						<MedicalRecordsList
+							records={medicalRecords}
+							onEdit={handleEditRecord}
+							onRefresh={refetchMedicalRecords}
+						/>
+					)}
 				</div>
 			</div>
 
@@ -123,6 +183,26 @@ export default function DocumentsPage() {
 				isOpen={uploadDialogOpen}
 				onClose={() => setUploadDialogOpen(false)}
 				onUpload={handleUpload}
+			/>
+
+			{/* Medical Record Selector */}
+			<MedicalRecordSelector
+				isOpen={recordSelectorOpen}
+				onClose={() => setRecordSelectorOpen(false)}
+				onSelect={handleRecordTypeSelect}
+			/>
+
+			{/* Medical Record Form */}
+			<MedicalRecordForm
+				isOpen={recordFormOpen}
+				onClose={() => {
+					setRecordFormOpen(false);
+					setSelectedRecordType(null);
+					setEditingRecord(null);
+				}}
+				recordType={selectedRecordType}
+				initialData={editingRecord}
+				onSuccess={refetchMedicalRecords}
 			/>
 
 			{/* Floating Action Menu */}

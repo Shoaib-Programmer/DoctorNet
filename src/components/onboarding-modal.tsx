@@ -34,7 +34,16 @@ interface FormData {
 	gender: "male" | "female" | "other" | "prefer-not-to-say";
 	height: string;
 	weight: string;
-	bloodType: "A+" | "A-" | "B+" | "B-" | "AB+" | "AB-" | "O+" | "O-" | "unknown";
+	bloodType:
+		| "A+"
+		| "A-"
+		| "B+"
+		| "B-"
+		| "AB+"
+		| "AB-"
+		| "O+"
+		| "O-"
+		| "unknown";
 	allergies: string[];
 	medications: string[];
 	medicalHistory: string[];
@@ -97,7 +106,9 @@ export function OnboardingModal({ isOpen, onComplete }: OnboardingModalProps) {
 
 	const updateMedicalInfoMutation = api.user.updateMedicalInfo.useMutation({
 		onSuccess: () => {
-			toast.success("Welcome to DoctorNet! Your profile has been set up successfully.");
+			toast.success(
+				"Welcome to DoctorNet! Your profile has been set up successfully.",
+			);
 			onComplete();
 		},
 		onError: (error) => {
@@ -113,7 +124,11 @@ export function OnboardingModal({ isOpen, onComplete }: OnboardingModalProps) {
 		}));
 	};
 
-	const handleNestedInputChange = (parent: string, field: string, value: any) => {
+	const handleNestedInputChange = (
+		parent: string,
+		field: string,
+		value: any,
+	) => {
 		setFormData((prev) => ({
 			...prev,
 			[parent]: {
@@ -127,7 +142,7 @@ export function OnboardingModal({ isOpen, onComplete }: OnboardingModalProps) {
 		if (value.trim()) {
 			setFormData((prev) => ({
 				...prev,
-				[field]: [...prev[field as keyof FormData] as string[], value.trim()],
+				[field]: [...(prev[field as keyof FormData] as string[]), value.trim()],
 			}));
 		}
 	};
@@ -135,7 +150,9 @@ export function OnboardingModal({ isOpen, onComplete }: OnboardingModalProps) {
 	const removeArrayItem = (field: string, index: number) => {
 		setFormData((prev) => ({
 			...prev,
-			[field]: (prev[field as keyof FormData] as string[]).filter((_, i) => i !== index),
+			[field]: (prev[field as keyof FormData] as string[]).filter(
+				(_, i) => i !== index,
+			),
 		}));
 	};
 
@@ -208,7 +225,9 @@ export function OnboardingModal({ isOpen, onComplete }: OnboardingModalProps) {
 						</div>
 						<div>
 							<h2 className="text-2xl font-bold">Welcome to DoctorNet</h2>
-							<p className="text-emerald-100">Let's set up your medical profile</p>
+							<p className="text-emerald-100">
+								Let's set up your medical profile
+							</p>
 						</div>
 					</div>
 				</div>
@@ -228,8 +247,8 @@ export function OnboardingModal({ isOpen, onComplete }: OnboardingModalProps) {
 											isCompleted
 												? "bg-emerald-500 text-white"
 												: isActive
-												? "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 ring-2 ring-emerald-500"
-												: "bg-slate-100 dark:bg-slate-800 text-slate-400"
+													? "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 ring-2 ring-emerald-500"
+													: "bg-slate-100 dark:bg-slate-800 text-slate-400"
 										}`}
 									>
 										{isCompleted ? (
@@ -241,7 +260,9 @@ export function OnboardingModal({ isOpen, onComplete }: OnboardingModalProps) {
 									{index < steps.length - 1 && (
 										<div
 											className={`w-16 h-0.5 mx-2 transition-all duration-300 ${
-												isCompleted ? "bg-emerald-500" : "bg-slate-200 dark:bg-slate-700"
+												isCompleted
+													? "bg-emerald-500"
+													: "bg-slate-200 dark:bg-slate-700"
 											}`}
 										/>
 									)}
@@ -262,293 +283,334 @@ export function OnboardingModal({ isOpen, onComplete }: OnboardingModalProps) {
 				{/* Content */}
 				<div className="flex-1 overflow-y-auto">
 					<div className="p-6">
-					{currentStep === 0 && (
-						<div className="space-y-4">
-							<div>
-								<label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-									Full Name *
-								</label>
-								<Input
-									value={formData.fullName}
-									onChange={(e) => handleInputChange("fullName", e.target.value)}
-									placeholder="Enter your full name"
-									className="focus:ring-emerald-500 focus:border-emerald-500"
-								/>
-							</div>
-							<div>
-								<label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-									Date of Birth *
-								</label>
-								<Input
-									type="date"
-									value={formData.dateOfBirth}
-									onChange={(e) => handleInputChange("dateOfBirth", e.target.value)}
-									className="focus:ring-emerald-500 focus:border-emerald-500"
-								/>
-							</div>
-							<div>
-								<label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-									Gender *
-								</label>
-								<select
-									value={formData.gender}
-									onChange={(e) => handleInputChange("gender", e.target.value)}
-									className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100"
-								>
-									<option value="prefer-not-to-say">Prefer not to say</option>
-									<option value="male">Male</option>
-									<option value="female">Female</option>
-									<option value="other">Other</option>
-								</select>
-							</div>
-						</div>
-					)}
-
-					{currentStep === 1 && (
-						<div className="space-y-4">
-							<div className="grid grid-cols-2 gap-4">
+						{currentStep === 0 && (
+							<div className="space-y-4">
 								<div>
 									<label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-										Height (cm) *
+										Full Name *
 									</label>
-									<div className="relative">
-										<Ruler className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
-										<Input
-											type="number"
-											value={formData.height}
-											onChange={(e) => handleInputChange("height", e.target.value)}
-											placeholder="170"
-											className="pl-10 focus:ring-emerald-500 focus:border-emerald-500"
-										/>
-									</div>
+									<Input
+										value={formData.fullName}
+										onChange={(e) =>
+											handleInputChange("fullName", e.target.value)
+										}
+										placeholder="Enter your full name"
+										className="focus:ring-emerald-500 focus:border-emerald-500"
+									/>
 								</div>
 								<div>
 									<label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-										Weight (kg) *
+										Date of Birth *
 									</label>
-									<div className="relative">
-										<Scale className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
-										<Input
-											type="number"
-											value={formData.weight}
-											onChange={(e) => handleInputChange("weight", e.target.value)}
-											placeholder="70"
-											className="pl-10 focus:ring-emerald-500 focus:border-emerald-500"
-										/>
-									</div>
+									<Input
+										type="date"
+										value={formData.dateOfBirth}
+										onChange={(e) =>
+											handleInputChange("dateOfBirth", e.target.value)
+										}
+										className="focus:ring-emerald-500 focus:border-emerald-500"
+									/>
 								</div>
-							</div>
-							<div>
-								<label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-									Blood Type *
-								</label>
-								<div className="relative">
-									<Droplet className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
+								<div>
+									<label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+										Gender *
+									</label>
 									<select
-										value={formData.bloodType}
-										onChange={(e) => handleInputChange("bloodType", e.target.value)}
-										className="w-full pl-10 pr-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100"
+										value={formData.gender}
+										onChange={(e) =>
+											handleInputChange("gender", e.target.value)
+										}
+										className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100"
 									>
-										<option value="unknown">Unknown</option>
-										<option value="A+">A+</option>
-										<option value="A-">A-</option>
-										<option value="B+">B+</option>
-										<option value="B-">B-</option>
-										<option value="AB+">AB+</option>
-										<option value="AB-">AB-</option>
-										<option value="O+">O+</option>
-										<option value="O-">O-</option>
+										<option value="prefer-not-to-say">Prefer not to say</option>
+										<option value="male">Male</option>
+										<option value="female">Female</option>
+										<option value="other">Other</option>
 									</select>
 								</div>
 							</div>
-						</div>
-					)}
+						)}
 
-					{currentStep === 2 && (
-						<div className="space-y-6">
-							{/* Allergies */}
-							<div>
-								<label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-									<div className="flex items-center space-x-2">
-										<AlertTriangle className="w-4 h-4" />
-										<span>Allergies (Optional)</span>
+						{currentStep === 1 && (
+							<div className="space-y-4">
+								<div className="grid grid-cols-2 gap-4">
+									<div>
+										<label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+											Height (cm) *
+										</label>
+										<div className="relative">
+											<Ruler className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
+											<Input
+												type="number"
+												value={formData.height}
+												onChange={(e) =>
+													handleInputChange("height", e.target.value)
+												}
+												placeholder="170"
+												className="pl-10 focus:ring-emerald-500 focus:border-emerald-500"
+											/>
+										</div>
 									</div>
-								</label>
-								<div className="space-y-2">
-									<Input
-										placeholder="Add allergy (press Enter)"
-										onKeyPress={(e) => {
-											if (e.key === "Enter") {
-												handleArrayInputChange("allergies", e.currentTarget.value);
-												e.currentTarget.value = "";
+									<div>
+										<label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+											Weight (kg) *
+										</label>
+										<div className="relative">
+											<Scale className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
+											<Input
+												type="number"
+												value={formData.weight}
+												onChange={(e) =>
+													handleInputChange("weight", e.target.value)
+												}
+												placeholder="70"
+												className="pl-10 focus:ring-emerald-500 focus:border-emerald-500"
+											/>
+										</div>
+									</div>
+								</div>
+								<div>
+									<label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+										Blood Type *
+									</label>
+									<div className="relative">
+										<Droplet className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
+										<select
+											value={formData.bloodType}
+											onChange={(e) =>
+												handleInputChange("bloodType", e.target.value)
 											}
-										}}
-										className="focus:ring-emerald-500 focus:border-emerald-500"
-									/>
-									<div className="flex flex-wrap gap-2">
-										{formData.allergies.map((allergy, index) => (
-											<span
-												key={index}
-												className="inline-flex items-center gap-1 px-3 py-1 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 rounded-full text-sm"
-											>
-												{allergy}
-												<button
-													onClick={() => removeArrayItem("allergies", index)}
-													className="text-red-500 hover:text-red-700"
-												>
-													×
-												</button>
-											</span>
-										))}
+											className="w-full pl-10 pr-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100"
+										>
+											<option value="unknown">Unknown</option>
+											<option value="A+">A+</option>
+											<option value="A-">A-</option>
+											<option value="B+">B+</option>
+											<option value="B-">B-</option>
+											<option value="AB+">AB+</option>
+											<option value="AB-">AB-</option>
+											<option value="O+">O+</option>
+											<option value="O-">O-</option>
+										</select>
 									</div>
 								</div>
 							</div>
+						)}
 
-							{/* Medications */}
-							<div>
-								<label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-									<div className="flex items-center space-x-2">
-										<Pill className="w-4 h-4" />
-										<span>Current Medications (Optional)</span>
+						{currentStep === 2 && (
+							<div className="space-y-6">
+								{/* Allergies */}
+								<div>
+									<label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+										<div className="flex items-center space-x-2">
+											<AlertTriangle className="w-4 h-4" />
+											<span>Allergies (Optional)</span>
+										</div>
+									</label>
+									<div className="space-y-2">
+										<Input
+											placeholder="Add allergy (press Enter)"
+											onKeyPress={(e) => {
+												if (e.key === "Enter") {
+													handleArrayInputChange(
+														"allergies",
+														e.currentTarget.value,
+													);
+													e.currentTarget.value = "";
+												}
+											}}
+											className="focus:ring-emerald-500 focus:border-emerald-500"
+										/>
+										<div className="flex flex-wrap gap-2">
+											{formData.allergies.map((allergy, index) => (
+												<span
+													key={index}
+													className="inline-flex items-center gap-1 px-3 py-1 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 rounded-full text-sm"
+												>
+													{allergy}
+													<button
+														onClick={() => removeArrayItem("allergies", index)}
+														className="text-red-500 hover:text-red-700"
+													>
+														×
+													</button>
+												</span>
+											))}
+										</div>
 									</div>
-								</label>
-								<div className="space-y-2">
-									<Input
-										placeholder="Add medication (press Enter)"
-										onKeyPress={(e) => {
-											if (e.key === "Enter") {
-												handleArrayInputChange("medications", e.currentTarget.value);
-												e.currentTarget.value = "";
+								</div>
+
+								{/* Medications */}
+								<div>
+									<label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+										<div className="flex items-center space-x-2">
+											<Pill className="w-4 h-4" />
+											<span>Current Medications (Optional)</span>
+										</div>
+									</label>
+									<div className="space-y-2">
+										<Input
+											placeholder="Add medication (press Enter)"
+											onKeyPress={(e) => {
+												if (e.key === "Enter") {
+													handleArrayInputChange(
+														"medications",
+														e.currentTarget.value,
+													);
+													e.currentTarget.value = "";
+												}
+											}}
+											className="focus:ring-emerald-500 focus:border-emerald-500"
+										/>
+										<div className="flex flex-wrap gap-2">
+											{formData.medications.map((medication, index) => (
+												<span
+													key={index}
+													className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full text-sm"
+												>
+													{medication}
+													<button
+														onClick={() =>
+															removeArrayItem("medications", index)
+														}
+														className="text-blue-500 hover:text-blue-700"
+													>
+														×
+													</button>
+												</span>
+											))}
+										</div>
+									</div>
+								</div>
+
+								{/* Medical History */}
+								<div>
+									<label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+										<div className="flex items-center space-x-2">
+											<FileText className="w-4 h-4" />
+											<span>Medical History (Optional)</span>
+										</div>
+									</label>
+									<div className="space-y-2">
+										<Input
+											placeholder="Add medical condition (press Enter)"
+											onKeyPress={(e) => {
+												if (e.key === "Enter") {
+													handleArrayInputChange(
+														"medicalHistory",
+														e.currentTarget.value,
+													);
+													e.currentTarget.value = "";
+												}
+											}}
+											className="focus:ring-emerald-500 focus:border-emerald-500"
+										/>
+										<div className="flex flex-wrap gap-2">
+											{formData.medicalHistory.map((condition, index) => (
+												<span
+													key={index}
+													className="inline-flex items-center gap-1 px-3 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 rounded-full text-sm"
+												>
+													{condition}
+													<button
+														onClick={() =>
+															removeArrayItem("medicalHistory", index)
+														}
+														className="text-emerald-500 hover:text-emerald-700"
+													>
+														×
+													</button>
+												</span>
+											))}
+										</div>
+									</div>
+								</div>
+							</div>
+						)}
+
+						{currentStep === 3 && (
+							<div className="space-y-4">
+								<div>
+									<label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+										Phone Number *
+									</label>
+									<div className="relative">
+										<Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
+										<Input
+											value={formData.phoneNumber}
+											onChange={(e) =>
+												handleInputChange("phoneNumber", e.target.value)
 											}
-										}}
-										className="focus:ring-emerald-500 focus:border-emerald-500"
-									/>
-									<div className="flex flex-wrap gap-2">
-										{formData.medications.map((medication, index) => (
-											<span
-												key={index}
-												className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full text-sm"
-											>
-												{medication}
-												<button
-													onClick={() => removeArrayItem("medications", index)}
-													className="text-blue-500 hover:text-blue-700"
-												>
-													×
-												</button>
-											</span>
-										))}
+											placeholder="+1 (555) 123-4567"
+											className="pl-10 focus:ring-emerald-500 focus:border-emerald-500"
+										/>
 									</div>
 								</div>
-							</div>
-
-							{/* Medical History */}
-							<div>
-								<label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-									<div className="flex items-center space-x-2">
-										<FileText className="w-4 h-4" />
-										<span>Medical History (Optional)</span>
-									</div>
-								</label>
-								<div className="space-y-2">
-									<Input
-										placeholder="Add medical condition (press Enter)"
-										onKeyPress={(e) => {
-											if (e.key === "Enter") {
-												handleArrayInputChange("medicalHistory", e.currentTarget.value);
-												e.currentTarget.value = "";
+								<div>
+									<label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+										Address *
+									</label>
+									<div className="relative">
+										<MapPin className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
+										<textarea
+											value={formData.address}
+											onChange={(e) =>
+												handleInputChange("address", e.target.value)
 											}
-										}}
-										className="focus:ring-emerald-500 focus:border-emerald-500"
-									/>
-									<div className="flex flex-wrap gap-2">
-										{formData.medicalHistory.map((condition, index) => (
-											<span
-												key={index}
-												className="inline-flex items-center gap-1 px-3 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 rounded-full text-sm"
-											>
-												{condition}
-												<button
-													onClick={() => removeArrayItem("medicalHistory", index)}
-													className="text-emerald-500 hover:text-emerald-700"
-												>
-													×
-												</button>
-											</span>
-										))}
+											placeholder="123 Main St, City, State, ZIP"
+											rows={3}
+											className="w-full pl-10 pr-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 resize-none"
+										/>
+									</div>
+								</div>
+								<div className="border-t border-slate-200 dark:border-slate-700 pt-4">
+									<label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-3">
+										<div className="flex items-center space-x-2">
+											<Users className="w-4 h-4" />
+											<span>Emergency Contact *</span>
+										</div>
+									</label>
+									<div className="space-y-3">
+										<Input
+											value={formData.emergencyContact.name}
+											onChange={(e) =>
+												handleNestedInputChange(
+													"emergencyContact",
+													"name",
+													e.target.value,
+												)
+											}
+											placeholder="Emergency contact name"
+											className="focus:ring-emerald-500 focus:border-emerald-500"
+										/>
+										<Input
+											value={formData.emergencyContact.phone}
+											onChange={(e) =>
+												handleNestedInputChange(
+													"emergencyContact",
+													"phone",
+													e.target.value,
+												)
+											}
+											placeholder="Emergency contact phone"
+											className="focus:ring-emerald-500 focus:border-emerald-500"
+										/>
+										<Input
+											value={formData.emergencyContact.relationship}
+											onChange={(e) =>
+												handleNestedInputChange(
+													"emergencyContact",
+													"relationship",
+													e.target.value,
+												)
+											}
+											placeholder="Relationship (e.g., Spouse, Parent, Sibling)"
+											className="focus:ring-emerald-500 focus:border-emerald-500"
+										/>
 									</div>
 								</div>
 							</div>
-						</div>
-					)}
-
-					{currentStep === 3 && (
-						<div className="space-y-4">
-							<div>
-								<label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-									Phone Number *
-								</label>
-								<div className="relative">
-									<Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
-									<Input
-										value={formData.phoneNumber}
-										onChange={(e) => handleInputChange("phoneNumber", e.target.value)}
-										placeholder="+1 (555) 123-4567"
-										className="pl-10 focus:ring-emerald-500 focus:border-emerald-500"
-									/>
-								</div>
-							</div>
-							<div>
-								<label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-									Address *
-								</label>
-								<div className="relative">
-									<MapPin className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
-									<textarea
-										value={formData.address}
-										onChange={(e) => handleInputChange("address", e.target.value)}
-										placeholder="123 Main St, City, State, ZIP"
-										rows={3}
-										className="w-full pl-10 pr-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 resize-none"
-									/>
-								</div>
-							</div>
-							<div className="border-t border-slate-200 dark:border-slate-700 pt-4">
-								<label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-3">
-									<div className="flex items-center space-x-2">
-										<Users className="w-4 h-4" />
-										<span>Emergency Contact *</span>
-									</div>
-								</label>
-								<div className="space-y-3">
-									<Input
-										value={formData.emergencyContact.name}
-										onChange={(e) =>
-											handleNestedInputChange("emergencyContact", "name", e.target.value)
-										}
-										placeholder="Emergency contact name"
-										className="focus:ring-emerald-500 focus:border-emerald-500"
-									/>
-									<Input
-										value={formData.emergencyContact.phone}
-										onChange={(e) =>
-											handleNestedInputChange("emergencyContact", "phone", e.target.value)
-										}
-										placeholder="Emergency contact phone"
-										className="focus:ring-emerald-500 focus:border-emerald-500"
-									/>
-									<Input
-										value={formData.emergencyContact.relationship}
-										onChange={(e) =>
-											handleNestedInputChange("emergencyContact", "relationship", e.target.value)
-										}
-										placeholder="Relationship (e.g., Spouse, Parent, Sibling)"
-										className="focus:ring-emerald-500 focus:border-emerald-500"
-									/>
-								</div>
-							</div>
-						</div>
-					)}
+						)}
 					</div>
 				</div>
 

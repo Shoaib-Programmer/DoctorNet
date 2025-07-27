@@ -36,7 +36,17 @@ export const userRouter = createTRPCRouter({
 				gender: z.enum(["male", "female", "other", "prefer-not-to-say"]),
 				height: z.number().min(50).max(300), // cm
 				weight: z.number().min(20).max(500), // kg
-				bloodType: z.enum(["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-", "unknown"]),
+				bloodType: z.enum([
+					"A+",
+					"A-",
+					"B+",
+					"B-",
+					"AB+",
+					"AB-",
+					"O+",
+					"O-",
+					"unknown",
+				]),
 				allergies: z.array(z.string()).optional(),
 				medications: z.array(z.string()).optional(),
 				medicalHistory: z.array(z.string()).optional(),

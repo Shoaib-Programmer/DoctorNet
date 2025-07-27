@@ -50,8 +50,12 @@ export default function SettingsPage() {
 				height: currentUser.height?.toString() || "",
 				weight: currentUser.weight?.toString() || "",
 				bloodType: currentUser.bloodType || "unknown",
-				allergies: currentUser.allergies ? JSON.parse(currentUser.allergies) : [],
-				medications: currentUser.medications ? JSON.parse(currentUser.medications) : [],
+				allergies: currentUser.allergies
+					? JSON.parse(currentUser.allergies)
+					: [],
+				medications: currentUser.medications
+					? JSON.parse(currentUser.medications)
+					: [],
 				medicalHistory: currentUser.medicalHistory
 					? JSON.parse(currentUser.medicalHistory)
 					: [],
@@ -99,7 +103,11 @@ export default function SettingsPage() {
 		}));
 	};
 
-	const handleNestedInputChange = (parent: string, field: string, value: any) => {
+	const handleNestedInputChange = (
+		parent: string,
+		field: string,
+		value: any,
+	) => {
 		setFormData((prev: any) => ({
 			...prev,
 			[parent]: {
@@ -122,7 +130,10 @@ export default function SettingsPage() {
 		const birth = new Date(dateOfBirth);
 		let age = today.getFullYear() - birth.getFullYear();
 		const monthDiff = today.getMonth() - birth.getMonth();
-		if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+		if (
+			monthDiff < 0 ||
+			(monthDiff === 0 && today.getDate() < birth.getDate())
+		) {
 			age--;
 		}
 		return age;
@@ -133,7 +144,9 @@ export default function SettingsPage() {
 			<div className="min-h-screen bg-gradient-to-br from-slate-50 to-emerald-50/30 dark:from-slate-900 dark:to-emerald-900/20 flex items-center justify-center">
 				<div className="text-center">
 					<div className="w-16 h-16 border-4 border-emerald-200 border-t-emerald-600 rounded-full animate-spin mx-auto mb-4"></div>
-					<p className="text-slate-600 dark:text-slate-400">Loading your profile...</p>
+					<p className="text-slate-600 dark:text-slate-400">
+						Loading your profile...
+					</p>
 				</div>
 			</div>
 		);
@@ -172,7 +185,9 @@ export default function SettingsPage() {
 									className="bg-emerald-600 hover:bg-emerald-700 text-white"
 								>
 									<Save className="w-4 h-4 mr-2" />
-									{updateMedicalInfoMutation.isPending ? "Saving..." : "Save Changes"}
+									{updateMedicalInfoMutation.isPending
+										? "Saving..."
+										: "Save Changes"}
 								</Button>
 							</div>
 						)}
@@ -194,7 +209,9 @@ export default function SettingsPage() {
 								{isEditing ? (
 									<Input
 										value={formData.fullName || ""}
-										onChange={(e) => handleInputChange("fullName", e.target.value)}
+										onChange={(e) =>
+											handleInputChange("fullName", e.target.value)
+										}
 										className="focus:ring-emerald-500 focus:border-emerald-500"
 									/>
 								) : (
@@ -211,7 +228,9 @@ export default function SettingsPage() {
 									<Input
 										type="date"
 										value={formData.dateOfBirth || ""}
-										onChange={(e) => handleInputChange("dateOfBirth", e.target.value)}
+										onChange={(e) =>
+											handleInputChange("dateOfBirth", e.target.value)
+										}
 										className="focus:ring-emerald-500 focus:border-emerald-500"
 									/>
 								) : (
@@ -219,7 +238,7 @@ export default function SettingsPage() {
 										{currentUser.dateOfBirth
 											? `${formatDate(currentUser.dateOfBirth.toString())} (Age: ${calculateAge(
 													currentUser.dateOfBirth,
-											  )})`
+												)})`
 											: "Not provided"}
 									</p>
 								)}
@@ -231,7 +250,9 @@ export default function SettingsPage() {
 								{isEditing ? (
 									<select
 										value={formData.gender || "prefer-not-to-say"}
-										onChange={(e) => handleInputChange("gender", e.target.value)}
+										onChange={(e) =>
+											handleInputChange("gender", e.target.value)
+										}
 										className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100"
 									>
 										<option value="prefer-not-to-say">Prefer not to say</option>
@@ -265,12 +286,16 @@ export default function SettingsPage() {
 									<Input
 										type="number"
 										value={formData.height || ""}
-										onChange={(e) => handleInputChange("height", e.target.value)}
+										onChange={(e) =>
+											handleInputChange("height", e.target.value)
+										}
 										className="focus:ring-emerald-500 focus:border-emerald-500"
 									/>
 								) : (
 									<p className="text-slate-900 dark:text-slate-100">
-										{currentUser.height ? `${currentUser.height} cm` : "Not provided"}
+										{currentUser.height
+											? `${currentUser.height} cm`
+											: "Not provided"}
 									</p>
 								)}
 							</div>
@@ -282,12 +307,16 @@ export default function SettingsPage() {
 									<Input
 										type="number"
 										value={formData.weight || ""}
-										onChange={(e) => handleInputChange("weight", e.target.value)}
+										onChange={(e) =>
+											handleInputChange("weight", e.target.value)
+										}
 										className="focus:ring-emerald-500 focus:border-emerald-500"
 									/>
 								) : (
 									<p className="text-slate-900 dark:text-slate-100">
-										{currentUser.weight ? `${currentUser.weight} kg` : "Not provided"}
+										{currentUser.weight
+											? `${currentUser.weight} kg`
+											: "Not provided"}
 									</p>
 								)}
 							</div>
@@ -298,7 +327,9 @@ export default function SettingsPage() {
 								{isEditing ? (
 									<select
 										value={formData.bloodType || "unknown"}
-										onChange={(e) => handleInputChange("bloodType", e.target.value)}
+										onChange={(e) =>
+											handleInputChange("bloodType", e.target.value)
+										}
 										className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100"
 									>
 										<option value="unknown">Unknown</option>
@@ -333,26 +364,32 @@ export default function SettingsPage() {
 								<label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
 									Allergies
 								</label>
-								{currentUser.allergies && JSON.parse(currentUser.allergies).length > 0 ? (
+								{currentUser.allergies &&
+								JSON.parse(currentUser.allergies).length > 0 ? (
 									<div className="flex flex-wrap gap-2">
-										{JSON.parse(currentUser.allergies).map((allergy: string, index: number) => (
-											<span
-												key={index}
-												className="px-3 py-1 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 rounded-full text-sm"
-											>
-												{allergy}
-											</span>
-										))}
+										{JSON.parse(currentUser.allergies).map(
+											(allergy: string, index: number) => (
+												<span
+													key={index}
+													className="px-3 py-1 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 rounded-full text-sm"
+												>
+													{allergy}
+												</span>
+											),
+										)}
 									</div>
 								) : (
-									<p className="text-slate-600 dark:text-slate-400">No known allergies</p>
+									<p className="text-slate-600 dark:text-slate-400">
+										No known allergies
+									</p>
 								)}
 							</div>
 							<div>
 								<label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
 									Current Medications
 								</label>
-								{currentUser.medications && JSON.parse(currentUser.medications).length > 0 ? (
+								{currentUser.medications &&
+								JSON.parse(currentUser.medications).length > 0 ? (
 									<div className="flex flex-wrap gap-2">
 										{JSON.parse(currentUser.medications).map(
 											(medication: string, index: number) => (
@@ -366,7 +403,9 @@ export default function SettingsPage() {
 										)}
 									</div>
 								) : (
-									<p className="text-slate-600 dark:text-slate-400">No current medications</p>
+									<p className="text-slate-600 dark:text-slate-400">
+										No current medications
+									</p>
 								)}
 							</div>
 							<div>
@@ -388,7 +427,9 @@ export default function SettingsPage() {
 										)}
 									</div>
 								) : (
-									<p className="text-slate-600 dark:text-slate-400">No medical history recorded</p>
+									<p className="text-slate-600 dark:text-slate-400">
+										No medical history recorded
+									</p>
 								)}
 							</div>
 						</div>
@@ -410,7 +451,9 @@ export default function SettingsPage() {
 								{isEditing ? (
 									<Input
 										value={formData.phoneNumber || ""}
-										onChange={(e) => handleInputChange("phoneNumber", e.target.value)}
+										onChange={(e) =>
+											handleInputChange("phoneNumber", e.target.value)
+										}
 										className="focus:ring-emerald-500 focus:border-emerald-500"
 									/>
 								) : (
@@ -423,7 +466,9 @@ export default function SettingsPage() {
 								<label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
 									Email
 								</label>
-								<p className="text-slate-900 dark:text-slate-100">{currentUser.email}</p>
+								<p className="text-slate-900 dark:text-slate-100">
+									{currentUser.email}
+								</p>
 							</div>
 						</div>
 						<div className="mb-6">
@@ -482,7 +527,9 @@ export default function SettingsPage() {
 									);
 								})()
 							) : (
-								<p className="text-slate-600 dark:text-slate-400">No emergency contact provided</p>
+								<p className="text-slate-600 dark:text-slate-400">
+									No emergency contact provided
+								</p>
 							)}
 						</div>
 					</div>

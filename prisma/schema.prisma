@@ -60,28 +60,29 @@ model User {
     email         String?   @unique
     emailVerified DateTime?
     image         String?
-    password      String?   // For credentials authentication
-    
+    password      String? // For credentials authentication
+
     // Medical Information
-    fullName      String?
-    dateOfBirth   DateTime?
-    gender        String?
-    height        Float?    // in cm
-    weight        Float?    // in kg
-    bloodType     String?
-    allergies     String?   // JSON string of allergies
-    medications   String?   // JSON string of current medications
-    medicalHistory String?  // JSON string of medical history
-    emergencyContact String? // JSON string with name and phone
-    phoneNumber   String?
-    address       String?
-    onboardingCompleted Boolean @default(false)
-    
-    accounts      Account[]
-    sessions      Session[]
-    posts         Post[]
-    appointments  Appointment[]
-    documents     Document[]
+    fullName            String?
+    dateOfBirth         DateTime?
+    gender              String?
+    height              Float? // in cm
+    weight              Float? // in kg
+    bloodType           String?
+    allergies           String? // JSON string of allergies
+    medications         String? // JSON string of current medications
+    medicalHistory      String? // JSON string of medical history
+    emergencyContact    String? // JSON string with name and phone
+    phoneNumber         String?
+    address             String?
+    onboardingCompleted Boolean   @default(false)
+
+    accounts       Account[]
+    sessions       Session[]
+    posts          Post[]
+    appointments   Appointment[]
+    documents      Document[]
+    medicalRecords MedicalRecord[]
 }
 
 model VerificationToken {
@@ -103,48 +104,48 @@ model Doctor {
     isAvailable Boolean  @default(true)
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
-    
+
     appointments Appointment[]
     availability DoctorAvailability[]
 }
 
 model DoctorAvailability {
-    id        String   @id @default(cuid())
+    id        String @id @default(cuid())
     doctorId  String
-    dayOfWeek Int      // 0-6 (Sunday to Saturday)
-    startTime String   // "09:00"
-    endTime   String   // "17:00"
-    
+    dayOfWeek Int // 0-6 (Sunday to Saturday)
+    startTime String // "09:00"
+    endTime   String // "17:00"
+
     doctor Doctor @relation(fields: [doctorId], references: [id], onDelete: Cascade)
-    
+
     @@unique([doctorId, dayOfWeek])
 }
 
 model Appointment {
-    id          String            @id @default(cuid())
-    patientId   String
-    doctorId    String
-    proposedAt  DateTime
-    status      AppointmentStatus @default(PENDING)
-    notes       String?
-    createdAt   DateTime          @default(now())
-    updatedAt   DateTime          @updatedAt
-    
+    id         String            @id @default(cuid())
+    patientId  String
+    doctorId   String
+    proposedAt DateTime
+    status     AppointmentStatus @default(PENDING)
+    notes      String?
+    createdAt  DateTime          @default(now())
+    updatedAt  DateTime          @updatedAt
+
     patient User   @relation(fields: [patientId], references: [id], onDelete: Cascade)
     doctor  Doctor @relation(fields: [doctorId], references: [id], onDelete: Cascade)
-    
+
     negotiations AppointmentNegotiation[]
 }
 
 model AppointmentNegotiation {
-    id            String                    @id @default(cuid())
+    id            String                @id @default(cuid())
     appointmentId String
     proposedBy    NegotiationProposedBy
     proposedAt    DateTime
     message       String?
-    status        NegotiationStatus        @default(PENDING)
-    createdAt     DateTime                 @default(now())
-    
+    status        NegotiationStatus     @default(PENDING)
+    createdAt     DateTime              @default(now())
+
     appointment Appointment @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
 }
 
@@ -168,18 +169,18 @@ enum NegotiationStatus {
 }
 
 model Document {
-    id          String   @id @default(cuid())
-    userId      String
-    fileName    String
+    id           String           @id @default(cuid())
+    userId       String
+    fileName     String
     originalName String
-    fileSize    Int
-    mimeType    String
-    url         String   // Vercel Blob URL
-    description String?
-    category    DocumentCategory @default(OTHER)
-    uploadedAt  DateTime @default(now())
-    updatedAt   DateTime @updatedAt
-    
+    fileSize     Int
+    mimeType     String
+    url          String // Vercel Blob URL
+    description  String?
+    category     DocumentCategory @default(OTHER)
+    uploadedAt   DateTime         @default(now())
+    updatedAt    DateTime         @updatedAt
+
     user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
@@ -196,4 +197,20 @@ enum DocumentCategory {
     COVID_TEST_RESULT
     INSURANCE_DOCUMENT
     OTHER
+}
+
+model MedicalRecord {
+    id         String   @id @default(cuid())
+    userId     String
+    key        String // The medical metric name (e.g., "blood_pressure", "heart_rate")
+    value      String // The value stored as JSON string for flexibility
+    unit       String? // Unit of measurement (e.g., "bpm", "mg/dL", "°F")
+    notes      String? // Optional notes
+    recordedAt DateTime @default(now())
+    createdAt  DateTime @default(now())
+    updatedAt  DateTime @updatedAt
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([userId, key]) // One record per user per key, will update existing
 }

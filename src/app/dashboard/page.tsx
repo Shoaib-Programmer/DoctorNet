@@ -12,7 +12,10 @@ export default function Dashboard() {
 		const birth = new Date(dateOfBirth);
 		let age = today.getFullYear() - birth.getFullYear();
 		const monthDiff = today.getMonth() - birth.getMonth();
-		if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+		if (
+			monthDiff < 0 ||
+			(monthDiff === 0 && today.getDate() < birth.getDate())
+		) {
 			age--;
 		}
 		return age;
@@ -33,7 +36,8 @@ export default function Dashboard() {
 					{/* Welcome Header */}
 					<div className="mb-8">
 						<h1 className="text-3xl font-bold text-slate-800 dark:text-slate-100 mb-2">
-							Welcome back, {currentUser?.fullName || currentUser?.name || "User"}! 👋
+							Welcome back,{" "}
+							{currentUser?.fullName || currentUser?.name || "User"}! 👋
 						</h1>
 						<p className="text-slate-600 dark:text-slate-400">
 							Here's an overview of your healthcare dashboard
@@ -49,9 +53,13 @@ export default function Dashboard() {
 										<User className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
 									</div>
 									<div>
-										<p className="text-sm text-slate-600 dark:text-slate-400">Age</p>
+										<p className="text-sm text-slate-600 dark:text-slate-400">
+											Age
+										</p>
 										<p className="text-lg font-semibold text-slate-900 dark:text-slate-100">
-											{currentUser.dateOfBirth ? calculateAge(currentUser.dateOfBirth) : "N/A"}
+											{currentUser.dateOfBirth
+												? calculateAge(currentUser.dateOfBirth)
+												: "N/A"}
 										</p>
 									</div>
 								</div>
@@ -63,7 +71,9 @@ export default function Dashboard() {
 										<Scale className="w-5 h-5 text-blue-600 dark:text-blue-400" />
 									</div>
 									<div>
-										<p className="text-sm text-slate-600 dark:text-slate-400">Weight</p>
+										<p className="text-sm text-slate-600 dark:text-slate-400">
+											Weight
+										</p>
 										<p className="text-lg font-semibold text-slate-900 dark:text-slate-100">
 											{currentUser.weight ? `${currentUser.weight} kg` : "N/A"}
 										</p>
@@ -77,7 +87,9 @@ export default function Dashboard() {
 										<Heart className="w-5 h-5 text-purple-600 dark:text-purple-400" />
 									</div>
 									<div>
-										<p className="text-sm text-slate-600 dark:text-slate-400">Height</p>
+										<p className="text-sm text-slate-600 dark:text-slate-400">
+											Height
+										</p>
 										<p className="text-lg font-semibold text-slate-900 dark:text-slate-100">
 											{currentUser.height ? `${currentUser.height} cm` : "N/A"}
 										</p>
@@ -91,7 +103,9 @@ export default function Dashboard() {
 										<Droplet className="w-5 h-5 text-red-600 dark:text-red-400" />
 									</div>
 									<div>
-										<p className="text-sm text-slate-600 dark:text-slate-400">Blood Type</p>
+										<p className="text-sm text-slate-600 dark:text-slate-400">
+											Blood Type
+										</p>
 										<p className="text-lg font-semibold text-slate-900 dark:text-slate-100">
 											{currentUser.bloodType || "Unknown"}
 										</p>
@@ -132,7 +146,9 @@ export default function Dashboard() {
 									))}
 								</div>
 							) : (
-								<p className="text-slate-600 dark:text-slate-400">No upcoming appointments</p>
+								<p className="text-slate-600 dark:text-slate-400">
+									No upcoming appointments
+								</p>
 							)}
 						</div>
 
@@ -146,19 +162,33 @@ export default function Dashboard() {
 								</h3>
 							</div>
 							<div className="space-y-2">
-								<p className="text-slate-600 dark:text-slate-400">3 documents available</p>
+								<p className="text-slate-600 dark:text-slate-400">
+									3 documents available
+								</p>
 								<div className="text-sm space-y-1">
 									<div className="flex justify-between">
-										<span className="text-slate-600 dark:text-slate-400">Blood Test</span>
-										<span className="text-emerald-600 dark:text-emerald-400">Recent</span>
+										<span className="text-slate-600 dark:text-slate-400">
+											Blood Test
+										</span>
+										<span className="text-emerald-600 dark:text-emerald-400">
+											Recent
+										</span>
 									</div>
 									<div className="flex justify-between">
-										<span className="text-slate-600 dark:text-slate-400">X-Ray Report</span>
-										<span className="text-slate-500 dark:text-slate-500">2 weeks ago</span>
+										<span className="text-slate-600 dark:text-slate-400">
+											X-Ray Report
+										</span>
+										<span className="text-slate-500 dark:text-slate-500">
+											2 weeks ago
+										</span>
 									</div>
 									<div className="flex justify-between">
-										<span className="text-slate-600 dark:text-slate-400">Prescription</span>
-										<span className="text-slate-500 dark:text-slate-500">1 month ago</span>
+										<span className="text-slate-600 dark:text-slate-400">
+											Prescription
+										</span>
+										<span className="text-slate-500 dark:text-slate-500">
+											1 month ago
+										</span>
 									</div>
 								</div>
 							</div>
@@ -175,25 +205,35 @@ export default function Dashboard() {
 							</div>
 							{currentUser?.onboardingCompleted ? (
 								<div className="space-y-2 text-sm">
-									{currentUser.allergies && JSON.parse(currentUser.allergies).length > 0 && (
-										<div>
-											<span className="text-slate-600 dark:text-slate-400">Allergies:</span>
-											<span className="ml-2 text-slate-900 dark:text-slate-100">
-												{JSON.parse(currentUser.allergies).join(", ")}
-											</span>
-										</div>
-									)}
-									{currentUser.medications && JSON.parse(currentUser.medications).length > 0 && (
-										<div>
-											<span className="text-slate-600 dark:text-slate-400">Medications:</span>
-											<span className="ml-2 text-slate-900 dark:text-slate-100">
-												{JSON.parse(currentUser.medications).length} active
-											</span>
-										</div>
-									)}
+									{currentUser.allergies &&
+										JSON.parse(currentUser.allergies).length > 0 && (
+											<div>
+												<span className="text-slate-600 dark:text-slate-400">
+													Allergies:
+												</span>
+												<span className="ml-2 text-slate-900 dark:text-slate-100">
+													{JSON.parse(currentUser.allergies).join(", ")}
+												</span>
+											</div>
+										)}
+									{currentUser.medications &&
+										JSON.parse(currentUser.medications).length > 0 && (
+											<div>
+												<span className="text-slate-600 dark:text-slate-400">
+													Medications:
+												</span>
+												<span className="ml-2 text-slate-900 dark:text-slate-100">
+													{JSON.parse(currentUser.medications).length} active
+												</span>
+											</div>
+										)}
 									<div>
-										<span className="text-slate-600 dark:text-slate-400">Profile:</span>
-										<span className="ml-2 text-emerald-600 dark:text-emerald-400">Complete</span>
+										<span className="text-slate-600 dark:text-slate-400">
+											Profile:
+										</span>
+										<span className="ml-2 text-emerald-600 dark:text-emerald-400">
+											Complete
+										</span>
 									</div>
 								</div>
 							) : (

@@ -35,7 +35,13 @@ function Hero({ session }: HeroProps) {
 						</div>
 					</div>
 					<div className="flex justify-center lg:justify-center">
-						<Image src="/doctor.png" alt="Doctor" className="bg-transparent rounded-md" width="435" height="435"></Image>
+						<Image
+							src="/doctor.png"
+							alt="Doctor"
+							className="bg-transparent rounded-md"
+							width="435"
+							height="435"
+						></Image>
 					</div>
 				</div>
 			</div>
