@@ -1,18 +1,18 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   Home,
-  User,
   Settings,
   LogOut,
   Menu,
   X,
   ChevronRight,
-  BarChart3,
+  Stethoscope,
   FileText,
-  Bell,
   Search,
-  HelpCircle,
+  MessageCircle,
 } from "lucide-react";
 
 // Add custom styles for animations
@@ -59,30 +59,59 @@ interface SidebarProps {
 // Updated navigation items - remove logout from here
 const navigationItems: NavigationItem[] = [
   { id: "dashboard", name: "Dashboard", icon: Home, href: "/dashboard" },
-  { id: "analytics", name: "Analytics", icon: BarChart3, href: "/analytics" },
+  {
+    id: "appointments",
+    name: "Appointments",
+    icon: Stethoscope,
+    href: "/dashboard/appointments",
+  },
   {
     id: "documents",
-    name: "Documents",
+    name: "Medical Records",
     icon: FileText,
-    href: "/documents",
+    href: "/dashboard/documents",
     badge: "3",
   },
+  // {
+  //   id: "notifications",
+  //   name: "Notifications",
+  //   icon: Bell,
+  //   href: "/notifications",
+  //   badge: "12",
+  // },
+  { id: "help", name: "Expert Help", icon: MessageCircle, href: "/dashboard/help" },
   {
-    id: "notifications",
-    name: "Notifications",
-    icon: Bell,
-    href: "/notifications",
-    badge: "12",
+    id: "settings",
+    name: "Settings",
+    icon: Settings,
+    href: "/dashboard/settings",
   },
-  { id: "profile", name: "Profile", icon: User, href: "/profile" },
-  { id: "settings", name: "Settings", icon: Settings, href: "/settings" },
-  { id: "help", name: "Help & Support", icon: HelpCircle, href: "/help" },
+  // {
+  //   id: "help",
+  //   name: "Help & Support",
+  //   icon: HelpCircle,
+  //   href: "/dashboard/help",
+  // },
 ];
 
 export function Sidebar({ className = "", userName, onLogout }: SidebarProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [activeItem, setActiveItem] = useState("dashboard");
+  const pathname = usePathname();
+  
+  // Get active item based on current pathname
+  const getActiveItem = () => {
+    const currentPath = pathname;
+    const activeNavItem = navigationItems.find(item => item.href === currentPath);
+    return activeNavItem?.id || "dashboard";
+  };
+
+  const [activeItem, setActiveItem] = useState(getActiveItem());
+
+  // Update active item when pathname changes
+  useEffect(() => {
+    setActiveItem(getActiveItem());
+  }, [pathname]);
 
   // Helper functions for user display
   const getUserDisplayName = () => {
@@ -97,7 +126,7 @@ export function Sidebar({ className = "", userName, onLogout }: SidebarProps) {
       const firstName = names[0];
       const lastName = names[names.length - 1];
       if (firstName && lastName) {
-        return `${firstName[0] || ''}${lastName[0] || ''}`.toUpperCase();
+        return `${firstName[0] || ""}${lastName[0] || ""}`.toUpperCase();
       }
     }
     if (names[0] && names[0].length >= 2) {
@@ -129,8 +158,8 @@ export function Sidebar({ className = "", userName, onLogout }: SidebarProps) {
       onLogout();
       return;
     }
-    
-    setActiveItem(itemId);
+
+    // Close mobile sidebar when navigating
     if (window.innerWidth < 768) {
       setIsOpen(false);
     }
@@ -146,8 +175,20 @@ export function Sidebar({ className = "", userName, onLogout }: SidebarProps) {
         aria-label="Toggle sidebar"
       >
         <div className="relative w-5 h-5">
-          <X className={`absolute inset-0 h-5 w-5 text-slate-600 dark:text-slate-300 transition-all duration-300 ease-in-out ${isOpen ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 rotate-90 scale-75'}`} />
-          <Menu className={`absolute inset-0 h-5 w-5 text-slate-600 dark:text-slate-300 transition-all duration-300 ease-in-out ${!isOpen ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 -rotate-90 scale-75'}`} />
+          <X
+            className={`absolute inset-0 h-5 w-5 text-slate-600 dark:text-slate-300 transition-all duration-300 ease-in-out ${
+              isOpen
+                ? "opacity-100 rotate-0 scale-100"
+                : "opacity-0 rotate-90 scale-75"
+            }`}
+          />
+          <Menu
+            className={`absolute inset-0 h-5 w-5 text-slate-600 dark:text-slate-300 transition-all duration-300 ease-in-out ${
+              !isOpen
+                ? "opacity-100 rotate-0 scale-100"
+                : "opacity-0 -rotate-90 scale-75"
+            }`}
+          />
         </div>
       </button>
 
@@ -171,12 +212,20 @@ export function Sidebar({ className = "", userName, onLogout }: SidebarProps) {
       >
         {/* Header with logo and collapse button */}
         <div className="flex items-center justify-between p-5 border-b border-slate-200 dark:border-slate-700 bg-gradient-to-r from-slate-50/80 to-emerald-50/20 dark:from-slate-800/80 dark:to-emerald-900/20">
-          <div className={`flex items-center transition-all duration-500 ease-out ${isCollapsed ? 'justify-center w-full' : 'space-x-2.5'}`}>
+          <div
+            className={`flex items-center transition-all duration-500 ease-out ${
+              isCollapsed ? "justify-center w-full" : "space-x-2.5"
+            }`}
+          >
             <div className="w-9 h-9 bg-gradient-to-br from-emerald-500 to-emerald-600 dark:from-emerald-400 dark:to-emerald-500 rounded-lg flex items-center justify-center shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105">
               <span className="text-white font-bold text-base">D</span>
             </div>
-            
-            <div className={`flex flex-col transition-all duration-500 ease-out overflow-hidden ${isCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'}`}>
+
+            <div
+              className={`flex flex-col transition-all duration-500 ease-out overflow-hidden ${
+                isCollapsed ? "w-0 opacity-0" : "w-auto opacity-100"
+              }`}
+            >
               <span className="font-semibold text-slate-800 dark:text-slate-100 text-base whitespace-nowrap">
                 DoctorNet
               </span>
@@ -189,15 +238,25 @@ export function Sidebar({ className = "", userName, onLogout }: SidebarProps) {
           {/* Desktop collapse button */}
           <button
             onClick={toggleCollapse}
-            className={`hidden md:flex p-1.5 rounded-md hover:bg-emerald-50 dark:hover:bg-emerald-900/30 hover:scale-110 transition-all duration-300 ease-out ${isCollapsed ? 'ml-0' : 'ml-2'}`}
+            className={`hidden md:flex p-1.5 rounded-md hover:bg-emerald-50 dark:hover:bg-emerald-900/30 hover:scale-110 transition-all duration-300 ease-out ${
+              isCollapsed ? "ml-0" : "ml-2"
+            }`}
             aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
           >
-            <ChevronRight className={`h-4 w-4 text-emerald-500 dark:text-emerald-400 transition-all duration-500 ease-out ${isCollapsed ? 'rotate-0' : 'rotate-180'}`} />
+            <ChevronRight
+              className={`h-4 w-4 text-emerald-500 dark:text-emerald-400 transition-all duration-500 ease-out ${
+                isCollapsed ? "rotate-0" : "rotate-180"
+              }`}
+            />
           </button>
         </div>
 
         {/* Search Bar */}
-        <div className={`px-4 transition-all duration-500 ease-out overflow-hidden ${isCollapsed ? 'py-0 max-h-0 opacity-0' : 'py-3 max-h-20 opacity-100'}`}>
+        <div
+          className={`px-4 transition-all duration-500 ease-out overflow-hidden ${
+            isCollapsed ? "py-0 max-h-0 opacity-0" : "py-3 max-h-20 opacity-100"
+          }`}
+        >
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-3.5 w-3.5 text-emerald-400 dark:text-emerald-300 transition-colors duration-300" />
             <input
@@ -216,30 +275,37 @@ export function Sidebar({ className = "", userName, onLogout }: SidebarProps) {
               const isActive = activeItem === item.id;
 
               return (
-                <li 
+                <li
                   key={item.id}
                   className={`transform transition-all duration-300 ease-out`}
-                  style={{ 
+                  style={{
                     animationDelay: `${index * 50}ms`,
-                    animation: isOpen ? 'slideInLeft 0.5s ease-out forwards' : 'none'
+                    animation: isOpen
+                      ? "slideInLeft 0.5s ease-out forwards"
+                      : "none",
                   }}
                 >
-                  <button
-                    onClick={() => handleItemClick(item.id)}
-                    className={`
-                      w-full flex items-center px-3 py-2.5 rounded-xl text-left transition-all duration-300 ease-out group relative overflow-hidden hover:scale-105 hover:shadow-sm
-                      ${
-                        isActive
-                          ? "bg-gradient-to-r from-emerald-50 to-emerald-100/50 dark:from-emerald-900/50 dark:to-emerald-800/30 text-emerald-700 dark:text-emerald-300 shadow-sm border border-emerald-200/50 dark:border-emerald-700/50"
-                          : "text-slate-600 dark:text-slate-300 hover:bg-gradient-to-r hover:from-slate-50 hover:to-emerald-50/30 dark:hover:from-slate-800/50 dark:hover:to-emerald-900/20 hover:text-slate-900 dark:hover:text-slate-100"
-                      }
-                      ${isCollapsed ? "justify-center px-2" : "space-x-3"}
-                    `}
-                    title={isCollapsed ? item.name : undefined}
-                  >
+                  <Link href={item.href}>
+                    <button
+                      onClick={() => handleItemClick(item.id)}
+                      className={`
+                        w-full flex items-center px-3 py-2.5 rounded-xl text-left transition-all duration-300 ease-out group relative overflow-hidden hover:scale-105 hover:shadow-sm
+                        ${
+                          isActive
+                            ? "bg-gradient-to-r from-emerald-50 to-emerald-100/50 dark:from-emerald-900/50 dark:to-emerald-800/30 text-emerald-700 dark:text-emerald-300 shadow-sm border border-emerald-200/50 dark:border-emerald-700/50"
+                            : "text-slate-600 dark:text-slate-300 hover:bg-gradient-to-r hover:from-slate-50 hover:to-emerald-50/30 dark:hover:from-slate-800/50 dark:hover:to-emerald-900/20 hover:text-slate-900 dark:hover:text-slate-100"
+                        }
+                        ${isCollapsed ? "justify-center px-2" : "space-x-3"}
+                      `}
+                      title={isCollapsed ? item.name : undefined}
+                    >
                     {/* Active indicator */}
-                    <div className={`absolute left-0 top-1/2 transform -translate-y-1/2 w-1 rounded-r-full bg-emerald-500 dark:bg-emerald-400 transition-all duration-300 ease-out ${isActive ? 'h-8 opacity-100' : 'h-0 opacity-0'}`} />
-                    
+                    <div
+                      className={`absolute left-0 top-1/2 transform -translate-y-1/2 w-1 rounded-r-full bg-emerald-500 dark:bg-emerald-400 transition-all duration-300 ease-out ${
+                        isActive ? "h-8 opacity-100" : "h-0 opacity-0"
+                      }`}
+                    />
+
                     <div className="flex items-center justify-center min-w-[24px] relative">
                       <Icon
                         className={`
@@ -253,7 +319,13 @@ export function Sidebar({ className = "", userName, onLogout }: SidebarProps) {
                       />
                     </div>
 
-                    <div className={`flex items-center justify-between w-full transition-all duration-500 ease-out overflow-hidden ${isCollapsed ? 'max-w-0 opacity-0' : 'max-w-full opacity-100'}`}>
+                    <div
+                      className={`flex items-center justify-between w-full transition-all duration-500 ease-out overflow-hidden ${
+                        isCollapsed
+                          ? "max-w-0 opacity-0"
+                          : "max-w-full opacity-100"
+                      }`}
+                    >
                       <span
                         className={`text-sm whitespace-nowrap transition-all duration-300 ${
                           isActive ? "font-semibold" : "font-medium"
@@ -299,6 +371,7 @@ export function Sidebar({ className = "", userName, onLogout }: SidebarProps) {
                       </div>
                     )}
                   </button>
+                  </Link>
                 </li>
               );
             })}
@@ -308,16 +381,32 @@ export function Sidebar({ className = "", userName, onLogout }: SidebarProps) {
         {/* Bottom section with profile and logout */}
         <div className="mt-auto border-t border-slate-200/50 dark:border-slate-700/50 bg-gradient-to-r from-slate-50/50 to-emerald-50/20 dark:from-slate-800/50 dark:to-emerald-900/20">
           {/* Profile Section */}
-          <div className={`border-b border-slate-200/50 dark:border-slate-700/50 transition-all duration-500 ease-out ${isCollapsed ? "py-4 px-2" : "p-4"}`}>
-            <div className={`flex items-center transition-all duration-500 ease-out hover:scale-105 ${isCollapsed ? 'justify-center' : 'px-3 py-2 rounded-xl bg-white/70 dark:bg-slate-800/70 hover:bg-white dark:hover:bg-slate-800 hover:shadow-md'}`}>
+          <div
+            className={`border-b border-slate-200/50 dark:border-slate-700/50 transition-all duration-500 ease-out ${
+              isCollapsed ? "py-4 px-2" : "p-4"
+            }`}
+          >
+            <div
+              className={`flex items-center transition-all duration-500 ease-out hover:scale-105 ${
+                isCollapsed
+                  ? "justify-center"
+                  : "px-3 py-2 rounded-xl bg-white/70 dark:bg-slate-800/70 hover:bg-white dark:hover:bg-slate-800 hover:shadow-md"
+              }`}
+            >
               <div className="relative">
                 <div className="w-9 h-9 bg-gradient-to-br from-emerald-400 to-emerald-600 dark:from-emerald-300 dark:to-emerald-500 rounded-full flex items-center justify-center shadow-md transition-all duration-300 hover:shadow-lg">
-                  <span className="text-white dark:text-slate-900 font-bold text-sm">{getUserInitials()}</span>
+                  <span className="text-white dark:text-slate-900 font-bold text-sm">
+                    {getUserInitials()}
+                  </span>
                 </div>
                 <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-400 dark:bg-green-300 rounded-full border-2 border-white dark:border-slate-900 shadow-sm animate-pulse" />
               </div>
-              
-              <div className={`flex-1 min-w-0 ml-3 transition-all duration-500 ease-out overflow-hidden ${isCollapsed ? 'max-w-0 opacity-0' : 'max-w-full opacity-100'}`}>
+
+              <div
+                className={`flex-1 min-w-0 ml-3 transition-all duration-500 ease-out overflow-hidden ${
+                  isCollapsed ? "max-w-0 opacity-0" : "max-w-full opacity-100"
+                }`}
+              >
                 <p className="text-sm font-semibold text-slate-800 dark:text-slate-100 truncate">
                   {getUserDisplayName()}
                 </p>
@@ -335,11 +424,7 @@ export function Sidebar({ className = "", userName, onLogout }: SidebarProps) {
               className={`
                 w-full flex items-center rounded-xl text-left transition-all duration-300 ease-out group hover:scale-105
                 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 hover:text-red-700 dark:hover:text-red-300 hover:shadow-sm
-                ${
-                  isCollapsed
-                    ? "justify-center p-3"
-                    : "space-x-3 px-3 py-2.5"
-                }
+                ${isCollapsed ? "justify-center p-3" : "space-x-3 px-3 py-2.5"}
               `}
               title={isCollapsed ? "Logout" : undefined}
             >
@@ -347,7 +432,11 @@ export function Sidebar({ className = "", userName, onLogout }: SidebarProps) {
                 <LogOut className="h-5 w-5 flex-shrink-0 text-red-500 dark:text-red-400 group-hover:text-red-600 dark:group-hover:text-red-300 transition-all duration-300 group-hover:scale-110" />
               </div>
 
-              <span className={`text-sm font-medium transition-all duration-500 ease-out overflow-hidden whitespace-nowrap ${isCollapsed ? 'max-w-0 opacity-0' : 'max-w-full opacity-100'}`}>
+              <span
+                className={`text-sm font-medium transition-all duration-500 ease-out overflow-hidden whitespace-nowrap ${
+                  isCollapsed ? "max-w-0 opacity-0" : "max-w-full opacity-100"
+                }`}
+              >
                 Logout
               </span>
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { Sidebar } from "@/components/ui/sidebar";
+import { Sidebar } from "@/components/sidebar";
 import { logoutAction } from "@/app/actions/auth";
 
 interface DashboardClientProps {
