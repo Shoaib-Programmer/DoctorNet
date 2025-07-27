@@ -1,178 +1,182 @@
 [
-  {
-    "name": "Tension Headache",
-    "body_part": "Head",
-    "symptom_sets": [
-      ["headache", "no_dizziness", "no_light_sensitivity"],
-      ["headache", "no_vision_issues"]
-    ],
-    "severity": ["mild", "moderate"],
-    "duration": ["within_day", "within_3_days"],
-    "min_matches": 2
-  },
-  {
-    "name": "Migraine",
-    "body_part": "Head",
-    "symptom_sets": [
-      ["headache", "blurred_vision", "nausea"],
-      ["headache", "light_sensitivity", "dizziness"]
-    ],
-    "severity": ["moderate", "severe"],
-    "duration": ["within_3_days", "more_than_3_days"],
-    "min_matches": 2
-  },
-  {
-    "name": "Concussion",
-    "body_part": "Head",
-    "symptom_sets": [
-      ["headache", "dizziness", "head_injury"],
-      ["blurred_vision", "head_injury"]
-    ],
-    "severity": ["moderate", "severe"],
-    "duration": ["within_3_days"],
-    "min_matches": 2
-  },
-  {
-    "name": "Asthma Flare-Up",
-    "body_part": "Chest",
-    "symptom_sets": [
-      ["breathing_difficulty", "chest_tightness"],
-      ["cough", "chest_tightness"]
-    ],
-    "severity": ["mild", "moderate"],
-    "duration": ["within_day", "recurring"],
-    "min_matches": 2
-  },
-  {
-    "name": "Pneumonia",
-    "body_part": "Chest",
-    "symptom_sets": [
-      ["cough", "mucus", "fever", "chest_pain"],
-      ["breathing_difficulty", "fever", "cough"]
-    ],
-    "severity": ["moderate", "severe"],
-    "duration": ["more_than_3_days"],
-    "min_matches": 3
-  },
-  {
-    "name": "Bronchitis",
-    "body_part": "Chest",
-    "symptom_sets": [
-      ["cough", "mucus", "fatigue"],
-      ["chest_tightness", "dry_cough"]
-    ],
-    "severity": ["mild", "moderate"],
-    "duration": ["within_week"],
-    "min_matches": 2
-  },
-  {
-    "name": "Possible Heart Attack",
-    "body_part": "Chest",
-    "symptom_sets": [
-      ["chest_tightness", "irregular_heartbeat", "breathing_difficulty"],
-      ["chest_pain", "nausea", "dizziness"]
-    ],
-    "severity": ["severe"],
-    "duration": ["within_hour"],
-    "min_matches": 2
-  },
-  {
-    "name": "Food Poisoning",
-    "body_part": "Stomach",
-    "symptom_sets": [
-      ["vomiting", "diarrhea", "cramps"],
-      ["nausea", "diarrhea", "loss_of_appetite"]
-    ],
-    "severity": ["moderate"],
-    "duration": ["within_3_days"],
-    "min_matches": 2
-  },
-  {
-    "name": "IBS",
-    "body_part": "Stomach",
-    "symptom_sets": [
-      ["diarrhea", "bloating", "stomach_pain"],
-      ["constipation", "cramps", "gas"]
-    ],
-    "severity": ["mild", "moderate"],
-    "duration": ["more_than_week", "recurring"],
-    "min_matches": 2
-  },
-  {
-    "name": "Appendicitis",
-    "body_part": "Stomach",
-    "symptom_sets": [
-      ["stomach_pain", "nausea", "loss_of_appetite"],
-      ["stomach_pain", "vomiting", "movement_pain"]
-    ],
-    "severity": ["moderate", "severe"],
-    "duration": ["within_3_days"],
-    "min_matches": 2
-  },
-  {
-    "name": "UTI",
-    "body_part": "Urinary",
-    "symptom_sets": [
-      ["burning_urination", "frequent_urination", "cloudy_urine"],
-      ["urgency", "strong_urine_smell", "bladder_not_empty"]
-    ],
-    "severity": ["mild", "moderate"],
-    "duration": ["within_week"],
-    "min_matches": 2
-  },
-  {
-    "name": "Kidney Stones",
-    "body_part": "Urinary",
-    "symptom_sets": [
-      ["urinary_pain", "blood_in_urine", "side_pain"],
-      ["cloudy_urine", "sharp_pain"]
-    ],
-    "severity": ["moderate", "severe"],
-    "duration": ["within_3_days"],
-    "min_matches": 2
-  },
-  {
-    "name": "Arthritis",
-    "body_part": "Musculoskeletal",
-    "symptom_sets": [
-      ["joint_pain", "stiffness", "swelling"],
-      ["joint_pain", "warmth", "limited_mobility"]
-    ],
-    "severity": ["mild", "moderate"],
-    "duration": ["more_than_week"],
-    "min_matches": 2
-  },
-  {
-    "name": "Muscle Strain",
-    "body_part": "Musculoskeletal",
-    "symptom_sets": [
-      ["muscle_pain", "injury"],
-      ["pain_with_movement"]
-    ],
-    "severity": ["mild", "moderate"],
-    "duration": ["within_3_days"],
-    "min_matches": 1
-  },
-  {
-    "name": "Tendonitis",
-    "body_part": "Musculoskeletal",
-    "symptom_sets": [
-      ["joint_pain", "motion_pain", "swelling"],
-      ["repetitive_use_pain"]
-    ],
-    "severity": ["moderate"],
-    "duration": ["more_than_3_days"],
-    "min_matches": 2
-  },
-  {
-    "name": "Bursitis",
-    "body_part": "Musculoskeletal",
-    "symptom_sets": [
-      ["joint_pain", "warmth", "swelling"],
-      ["joint_pain", "tenderness"]
-    ],
-    "severity": ["mild", "moderate"],
-    "duration": ["within_week"],
-    "min_matches": 2
-  }
+	{
+		"name": "Tension Headache",
+		"body_part": "Head",
+		"symptom_sets": [
+			["headache", "no_dizziness", "no_light_sensitivity", "no_vision_issues"]
+		],
+		"severity": ["mild", "moderate"],
+		"duration": ["within_day", "within_3_days"],
+		"min_matches": 2
+	},
+	{
+		"name": "Migraine",
+		"body_part": "Head",
+		"symptom_sets": [
+			["headache", "blurred_vision", "nausea", "light_sensitivity", "dizziness"]
+		],
+		"severity": ["moderate", "severe"],
+		"duration": ["within_3_days", "more_than_3_days"],
+		"min_matches": 2
+	},
+	{
+		"name": "Concussion",
+		"body_part": "Head",
+		"symptom_sets": [
+			["headache", "dizziness", "head_injury", "blurred_vision"]
+		],
+		"severity": ["moderate", "severe"],
+		"duration": ["within_3_days"],
+		"min_matches": 2
+	},
+	{
+		"name": "Asthma Flare-Up",
+		"body_part": "Chest",
+		"symptom_sets": [["breathing_difficulty", "chest_tightness", "cough"]],
+		"severity": ["mild", "moderate"],
+		"duration": ["within_day", "recurring"],
+		"min_matches": 2
+	},
+	{
+		"name": "Pneumonia",
+		"body_part": "Chest",
+		"symptom_sets": [
+			["cough", "mucus", "fever", "chest_pain", "breathing_difficulty"]
+		],
+		"severity": ["moderate", "severe"],
+		"duration": ["more_than_3_days"],
+		"min_matches": 3
+	},
+	{
+		"name": "Bronchitis",
+		"body_part": "Chest",
+		"symptom_sets": [
+			["cough", "mucus", "fatigue", "chest_tightness", "dry_cough"]
+		],
+		"severity": ["mild", "moderate"],
+		"duration": ["within_week"],
+		"min_matches": 2
+	},
+	{
+		"name": "Possible Heart Attack",
+		"body_part": "Chest",
+		"symptom_sets": [
+			[
+				"chest_tightness",
+				"irregular_heartbeat",
+				"breathing_difficulty",
+				"chest_pain",
+				"nausea",
+				"dizziness"
+			]
+		],
+		"severity": ["severe"],
+		"duration": ["within_hour"],
+		"min_matches": 2
+	},
+	{
+		"name": "Food Poisoning",
+		"body_part": "Stomach",
+		"symptom_sets": [
+			["vomiting", "diarrhea", "cramps", "nausea", "loss_of_appetite"]
+		],
+		"severity": ["moderate"],
+		"duration": ["within_3_days"],
+		"min_matches": 2
+	},
+	{
+		"name": "IBS",
+		"body_part": "Stomach",
+		"symptom_sets": [
+			["diarrhea", "bloating", "stomach_pain", "constipation", "cramps", "gas"]
+		],
+		"severity": ["mild", "moderate"],
+		"duration": ["more_than_week", "recurring"],
+		"min_matches": 2
+	},
+	{
+		"name": "Appendicitis",
+		"body_part": "Stomach",
+		"symptom_sets": [
+			[
+				"stomach_pain",
+				"nausea",
+				"loss_of_appetite",
+				"vomiting",
+				"movement_pain"
+			]
+		],
+		"severity": ["moderate", "severe"],
+		"duration": ["within_3_days"],
+		"min_matches": 2
+	},
+	{
+		"name": "UTI",
+		"body_part": "Urinary",
+		"symptom_sets": [
+			[
+				"burning_urination",
+				"frequent_urination",
+				"cloudy_urine",
+				"urgency",
+				"strong_urine_smell",
+				"bladder_not_empty"
+			]
+		],
+		"severity": ["mild", "moderate"],
+		"duration": ["within_week"],
+		"min_matches": 2
+	},
+	{
+		"name": "Kidney Stones",
+		"body_part": "Urinary",
+		"symptom_sets": [
+			[
+				"urinary_pain",
+				"blood_in_urine",
+				"side_pain",
+				"cloudy_urine",
+				"sharp_pain"
+			]
+		],
+		"severity": ["moderate", "severe"],
+		"duration": ["within_3_days"],
+		"min_matches": 2
+	},
+	{
+		"name": "Arthritis",
+		"body_part": "Musculoskeletal",
+		"symptom_sets": [
+			["joint_pain", "stiffness", "swelling", "warmth", "limited_mobility"]
+		],
+		"severity": ["mild", "moderate"],
+		"duration": ["more_than_week"],
+		"min_matches": 2
+	},
+	{
+		"name": "Muscle Strain",
+		"body_part": "Musculoskeletal",
+		"symptom_sets": [["muscle_pain", "injury", "pain_with_movement"]],
+		"severity": ["mild", "moderate"],
+		"duration": ["within_3_days"],
+		"min_matches": 1
+	},
+	{
+		"name": "Tendonitis",
+		"body_part": "Musculoskeletal",
+		"symptom_sets": [
+			["joint_pain", "motion_pain", "swelling", "repetitive_use_pain"]
+		],
+		"severity": ["moderate"],
+		"duration": ["more_than_3_days"],
+		"min_matches": 2
+	},
+	{
+		"name": "Bursitis",
+		"body_part": "Musculoskeletal",
+		"symptom_sets": [["joint_pain", "warmth", "swelling", "tenderness"]],
+		"severity": ["mild", "moderate"],
+		"duration": ["within_week"],
+		"min_matches": 2
+	}
 ]
