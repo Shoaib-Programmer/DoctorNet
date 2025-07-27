@@ -271,7 +271,7 @@ export function Sidebar({ className = "", userName, onLogout }: SidebarProps) {
 						isCollapsed ? "py-0 max-h-0 opacity-0" : "py-3 max-h-20 opacity-100"
 					}`}
 				> */}
-					{/* <div className="relative">
+				{/* <div className="relative">
 						<Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-3.5 w-3.5 text-emerald-400 dark:text-emerald-300 transition-colors duration-300" />
 						<input
 							type="text"

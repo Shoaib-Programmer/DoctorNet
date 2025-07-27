@@ -18,8 +18,8 @@ function Hero({ session }: HeroProps) {
 								DoctorNet
 							</h1>
 							<p className="text-lg sm:text-xl leading-relaxed tracking-tight max-w-md text-left text-slate-300 text-balance">
-								Managing a small business today is already tough. Avoid further
-								complications by ditching outdated, tedious trade methods.
+								An all-in-one app where users can book doctor appointments, and
+								store all their medical information.
 							</p>
 						</div>
 						<div className="flex flex-row gap-4">
