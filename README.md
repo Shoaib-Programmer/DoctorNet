@@ -47,11 +47,11 @@ Our long-term goal is to **collaborate with local doctors and hospitals**, expan
 
 ---
 
-## 🧪 Try It Yourself
+## Try It Yourself
 
 Use the examples below to test the **Expert Help Chatbot**:
 
-### 🧠 Migraine
+### Migraine
 - Select: **Head**
 - Answer "Yes" to at least **two** of the following:
   - Do you have a headache?
@@ -61,7 +61,7 @@ Use the examples below to test the **Expert Help Chatbot**:
 - Severity: **Moderate** or **Severe**
 - Duration: **More than a day**
 
-### ❤️ Pneumonia
+### Pneumonia
 - Select: **Chest**
 - Answer "Yes" to at least **two** of the following:
   - Do you have a persistent cough?
