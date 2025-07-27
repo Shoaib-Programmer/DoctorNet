@@ -451,16 +451,6 @@ export function Sidebar({ className = "", userName, onLogout }: SidebarProps) {
           </div>
         </div>
       </div>
-
-      {/* Main Content Area */}
-      <div
-        className={`
-          transition-all duration-500 ease-in-out w-full
-          ${isCollapsed ? "md:ml-20" : "md:ml-72"}
-        `}
-      >
-        {/* Your content remains the same */}
-      </div>
     </>
   );
 }
