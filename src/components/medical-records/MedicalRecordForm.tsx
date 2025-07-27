@@ -268,10 +268,11 @@ export function MedicalRecordForm({
 		return {};
 	});
 	const [notes, setNotes] = useState(initialData?.notes || "");
-	
+
 	// Autocomplete state
 	const [showSuggestions, setShowSuggestions] = useState(false);
-	const [filteredSuggestions, setFilteredSuggestions] = useState<string[]>([]);	const upsertMutation = api.medicalRecord.upsert.useMutation({
+	const [filteredSuggestions, setFilteredSuggestions] = useState<string[]>([]);
+	const upsertMutation = api.medicalRecord.upsert.useMutation({
 		onSuccess: () => {
 			toast.success("Medical record saved successfully");
 			onSuccess?.();
@@ -397,11 +398,15 @@ export function MedicalRecordForm({
 										type="text"
 										placeholder={field.placeholder}
 										value={formData[field.key] || ""}
-										onChange={(e) => handleAutocompleteChange(field.key, e.target.value)}
+										onChange={(e) =>
+											handleAutocompleteChange(field.key, e.target.value)
+										}
 										onFocus={() => {
 											if (formData[field.key]) {
-												const filtered = PREDEFINED_DISEASES.filter(disease =>
-													disease.toLowerCase().includes(formData[field.key].toLowerCase())
+												const filtered = PREDEFINED_DISEASES.filter((disease) =>
+													disease
+														.toLowerCase()
+														.includes(formData[field.key].toLowerCase()),
 												);
 												setFilteredSuggestions(filtered);
 												setShowSuggestions(true);
@@ -424,7 +429,9 @@ export function MedicalRecordForm({
 														// Prevent blur event when clicking
 														e.preventDefault();
 													}}
-													onClick={() => handleSuggestionClick(field.key, suggestion)}
+													onClick={() =>
+														handleSuggestionClick(field.key, suggestion)
+													}
 												>
 													{suggestion}
 												</button>
