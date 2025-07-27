@@ -4,10 +4,10 @@ import { db } from "@/server/db";
 
 export async function POST(request: NextRequest) {
 	try {
-		const { name, email, password } = await request.json();
+		const { email, password } = await request.json();
 
 		// Validate input
-		if (!name || !email || !password) {
+		if (!email || !password) {
 			return NextResponse.json(
 				{ error: "Missing required fields" },
 				{ status: 400 },
@@ -39,7 +39,6 @@ export async function POST(request: NextRequest) {
 		// Create user
 		const user = await db.user.create({
 			data: {
-				name,
 				email,
 				password: hashedPassword,
 			},

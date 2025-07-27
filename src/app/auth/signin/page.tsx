@@ -4,6 +4,7 @@ import { useState } from "react";
 import { signIn, getProviders } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
+import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -58,8 +59,14 @@ export default function SignIn() {
 						{/* Logo */}
 						<div className="flex items-center gap-1 lg:justify-start">
 							<a href="/">
-								<div className="h-10 w-10 bg-gradient-to-r from-purple-500 to-blue-500 rounded-lg flex items-center justify-center">
-									<span className="text-white font-bold text-lg">T3</span>
+								<div className="h-16 w-16 relative">
+									<Image
+										src="/logo.png"
+										alt="DoctorNet Logo"
+										fill
+										className="object-contain"
+										priority
+									/>
 								</div>
 							</a>
 						</div>

@@ -4,12 +4,12 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { FcGoogle } from "react-icons/fc";
+import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 export default function SignUp() {
-	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
@@ -41,7 +41,6 @@ export default function SignUp() {
 					"Content-Type": "application/json",
 				},
 				body: JSON.stringify({
-					name,
 					email,
 					password,
 				}),
@@ -90,8 +89,14 @@ export default function SignUp() {
 						{/* Logo */}
 						<div className="flex items-center gap-1 lg:justify-start">
 							<a href="/">
-								<div className="h-10 w-10 bg-gradient-to-r from-purple-500 to-blue-500 rounded-lg flex items-center justify-center">
-									<span className="text-white font-bold text-lg">T3</span>
+								<div className="h-16 w-16 relative">
+									<Image
+										src="/logo.png"
+										alt="DoctorNet Logo"
+										fill
+										className="object-contain"
+										priority
+									/>
 								</div>
 							</a>
 						</div>
@@ -100,16 +105,6 @@ export default function SignUp() {
 
 					<form onSubmit={handleSignUp} className="flex w-full flex-col gap-8">
 						<div className="flex flex-col gap-4">
-							<div className="flex flex-col gap-2">
-								<Input
-									type="text"
-									placeholder="Full Name"
-									required
-									value={name}
-									onChange={(e) => setName(e.target.value)}
-									disabled={isLoading}
-								/>
-							</div>
 							<div className="flex flex-col gap-2">
 								<Input
 									type="email"

@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import {
 	Home,
@@ -224,8 +225,14 @@ export function Sidebar({ className = "", userName, onLogout }: SidebarProps) {
 							isCollapsed ? "justify-center w-full" : "space-x-2.5"
 						}`}
 					>
-						<div className="w-9 h-9 bg-gradient-to-br from-emerald-500 to-emerald-600 dark:from-emerald-400 dark:to-emerald-500 rounded-lg flex items-center justify-center shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105">
-							<span className="text-white font-bold text-base">D</span>
+						<div className="w-9 h-9 relative rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105">
+							<Image
+								src="/logo.png"
+								alt="DoctorNet Logo"
+								fill
+								className="object-contain"
+								priority
+							/>
 						</div>
 
 						<div
