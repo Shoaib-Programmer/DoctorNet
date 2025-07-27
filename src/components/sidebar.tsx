@@ -81,10 +81,10 @@ const navigationItems: NavigationItem[] = [
 	//   badge: "12",
 	// },
 	{
-		id: "help",
-		name: "Expert Help",
+		id: "expert",
+		name: "CareBot",
 		icon: MessageCircle,
-		href: "/dashboard/help",
+		href: "/dashboard/expert",
 	},
 	{
 		id: "settings",
