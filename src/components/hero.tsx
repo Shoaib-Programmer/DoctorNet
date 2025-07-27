@@ -22,7 +22,7 @@ function Hero({ session }: HeroProps) {
 							</p>
 						</div>
 						<div className="flex flex-row gap-4">
-							<Link href={session ? "/dashboard" : "/api/auth/signup"}>
+							<Link href={session ? "/dashboard" : "/auth/signup"}>
 								<Button
 									size="lg"
 									className="gap-4 bg-emerald-500 hover:bg-emerald-600 text-white"

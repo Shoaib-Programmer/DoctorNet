@@ -61,6 +61,22 @@ model User {
     emailVerified DateTime?
     image         String?
     password      String?   // For credentials authentication
+    
+    // Medical Information
+    fullName      String?
+    dateOfBirth   DateTime?
+    gender        String?
+    height        Float?    // in cm
+    weight        Float?    // in kg
+    bloodType     String?
+    allergies     String?   // JSON string of allergies
+    medications   String?   // JSON string of current medications
+    medicalHistory String?  // JSON string of medical history
+    emergencyContact String? // JSON string with name and phone
+    phoneNumber   String?
+    address       String?
+    onboardingCompleted Boolean @default(false)
+    
     accounts      Account[]
     sessions      Session[]
     posts         Post[]

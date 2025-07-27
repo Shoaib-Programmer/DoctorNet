@@ -1,6 +1,7 @@
 "use client";
 
 import { Sidebar } from "@/components/sidebar";
+import { OnboardingProvider } from "@/components/onboarding-provider";
 import { logoutAction } from "@/app/actions/auth";
 
 interface DashboardLayoutClientProps {
@@ -17,9 +18,11 @@ export function DashboardLayoutClient({
 	};
 
 	return (
-		<div className="flex h-screen w-screen">
-			<Sidebar userName={userName} onLogout={handleLogout} />
-			<main className="flex-1 overflow-auto">{children}</main>
-		</div>
+		<OnboardingProvider>
+			<div className="flex h-screen w-screen">
+				<Sidebar userName={userName} onLogout={handleLogout} />
+				<main className="flex-1 overflow-auto">{children}</main>
+			</div>
+		</OnboardingProvider>
 	);
 }
