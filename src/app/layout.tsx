@@ -1,6 +1,6 @@
 import "@/styles/globals.css";
 
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist } from "next/font/google";
 import { SessionProvider } from "next-auth/react";
 
@@ -10,12 +10,13 @@ export const metadata: Metadata = {
 	title: "DoctorNet",
 	description: "DoctorNet - Your Personal Healthcare Assistant",
 	icons: [{ rel: "icon", url: "/favicon.ico" }],
-	viewport: {
-		width: "device-width",
-		initialScale: 1,
-		maximumScale: 5,
-		userScalable: true,
-	},
+};
+
+export const viewport: Viewport = {
+	width: "device-width",
+	initialScale: 1,
+	maximumScale: 5,
+	userScalable: true,
 };
 
 const geist = Geist({
