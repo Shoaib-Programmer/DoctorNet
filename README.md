@@ -41,9 +41,35 @@ Our long-term goal is to **collaborate with local doctors and hospitals**, expan
 - Our **AI-powered chatbot** asks about your symptoms, severity, and duration  
 - Suggests possible diagnoses  
 - Recommends next steps:  
-  - Message or call a doctor (during supported hours)  
+  - Message or call a doctor (**dummy**)  
   - Book an appointment directly  
-> This is a **fully functional** feature, not a demo
+> This is a **partly functional** feature, not a demo
+
+---
+
+## Try It Yourself
+
+Use the examples below to test the **Expert Help Chatbot**:
+
+### Migraine
+- Select: **Head**
+- Answer "Yes" to at least **two** of the following:
+  - Do you have a headache?
+  - Are you sensitive to light or sound?
+  - Any blurred or double vision?
+  - Do you feel nauseous or have you vomited?
+- Severity: **Moderate** or **Severe**
+- Duration: **More than a day**
+
+### Pneumonia
+- Select: **Chest**
+- Answer "Yes" to at least **two** of the following:
+  - Do you have a persistent cough?
+  - Are you coughing up mucus or blood?
+  - Are you having difficulty breathing?
+  - Do you feel chest pain or tightness?
+- Severity: **Moderate** or **Severe**
+- Duration: **More than 3 days**
 
 ---
 
