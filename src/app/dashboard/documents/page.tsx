@@ -1,32 +1,89 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import FloatingActionMenu from "@/components/ui/floating-action-menu";
+import { DocumentList } from "@/components/documents/DocumentList";
+import { UploadDialog } from "@/components/documents/UploadDialog";
 import { Upload, FileText, Camera, Scan } from "lucide-react";
+import { api } from "@/trpc/react";
+import { toast } from "sonner";
+import type { Document } from "@prisma/client";
 
 export default function DocumentsPage() {
+	const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
+	const [selectedDocument, setSelectedDocument] = useState<Document | null>(null);
+
+	// Get documents from tRPC
+	const { data: documents = [], refetch } = api.document.getAll.useQuery();
+	const deleteMutation = api.document.delete.useMutation({
+		onSuccess: () => {
+			toast.success("Document deleted successfully");
+			refetch();
+		},
+		onError: (error) => {
+			toast.error(error.message || "Failed to delete document");
+		},
+	});
+
+	const handleUpload = async (file: File, description: string, category: string) => {
+		try {
+			const formData = new FormData();
+			formData.append("file", file);
+			formData.append("description", description);
+			formData.append("category", category);
+
+			const response = await fetch("/api/documents/upload", {
+				method: "POST",
+				body: formData,
+			});
+
+			if (!response.ok) {
+				const error = await response.json();
+				throw new Error(error.error || "Upload failed");
+			}
+
+			const result = await response.json();
+			toast.success("Document uploaded successfully");
+			refetch(); // Refresh the documents list
+		} catch (error) {
+			console.error("Upload error:", error);
+			toast.error(error instanceof Error ? error.message : "Upload failed");
+			throw error;
+		}
+	};
+
+	const handleDelete = (id: string) => {
+		if (confirm("Are you sure you want to delete this document?")) {
+			deleteMutation.mutate({ id });
+		}
+	};
+
+	const handleView = (document: Document) => {
+		// Open document in new tab
+		window.open(document.url, "_blank");
+	};
+
 	const menuOptions = [
 		{
 			label: "Upload Document",
 			onClick: () => {
-				console.log("Upload document clicked");
-				// TODO: Implement document upload functionality
+				setUploadDialogOpen(true);
 			},
 			Icon: <Upload className="w-4 h-4" />,
 		},
-		{
-			label: "Scan Document",
-			onClick: () => {
-				console.log("Scan document clicked");
-				// TODO: Implement document scanning functionality
-			},
-			Icon: <Scan className="w-4 h-4" />,
-		},
+		// {
+		// 	label: "Scan Document",
+		// 	onClick: () => {
+		// 		console.log("Scan document clicked");
+		// 		toast.info("Document scanning feature coming soon!");
+		// 	},
+		// 	Icon: <Scan className="w-4 h-4" />,
+		// },
 		{
 			label: "New Record",
 			onClick: () => {
 				console.log("New record clicked");
-				// TODO: Implement new medical record creation
+				toast.info("New medical record feature coming soon!");
 			},
 			Icon: <FileText className="w-4 h-4" />,
 		},
@@ -34,7 +91,7 @@ export default function DocumentsPage() {
 			label: "Take Photo",
 			onClick: () => {
 				console.log("Take photo clicked");
-				// TODO: Implement camera functionality
+				toast.info("Camera functionality coming soon!");
 			},
 			Icon: <Camera className="w-4 h-4" />,
 		},
@@ -52,16 +109,21 @@ export default function DocumentsPage() {
 						Manage and organize your medical documents and records
 					</p>
 
-					{/* Placeholder content */}
-					<div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-8">
-						<div className="text-center text-slate-500 dark:text-slate-400">
-							<FileText className="w-16 h-16 mx-auto mb-4 text-emerald-400" />
-							<h3 className="text-lg font-semibold mb-2">No documents yet</h3>
-							<p>Use the floating menu to upload your first medical document</p>
-						</div>
-					</div>
+					{/* Documents List */}
+					<DocumentList
+						documents={documents}
+						onDelete={handleDelete}
+						onView={handleView}
+					/>
 				</div>
 			</div>
+
+			{/* Upload Dialog */}
+			<UploadDialog
+				isOpen={uploadDialogOpen}
+				onClose={() => setUploadDialogOpen(false)}
+				onUpload={handleUpload}
+			/>
 
 			{/* Floating Action Menu */}
 			<FloatingActionMenu options={menuOptions} />

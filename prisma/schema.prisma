@@ -81,6 +81,7 @@ model User {
     sessions      Session[]
     posts         Post[]
     appointments  Appointment[]
+    documents     Document[]
 }
 
 model VerificationToken {
@@ -164,4 +165,36 @@ enum NegotiationStatus {
     PENDING
     ACCEPTED
     DECLINED
+}
+
+model Document {
+    id          String   @id @default(cuid())
+    userId      String
+    fileName    String
+    originalName String
+    fileSize    Int
+    mimeType    String
+    url         String   // Vercel Blob URL
+    description String?
+    category    DocumentCategory @default(GENERAL)
+    uploadedAt  DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum DocumentCategory {
+    GENERAL
+    XRAY
+    MRI_CT_SCAN
+    ULTRASOUND_REPORT
+    ECG_EKG_REPORT
+    LAB_TEST_REPORT
+    PRESCRIPTION
+    REFERRAL_LETTER
+    SURGERY_RECORD
+    VACCINATION_CERTIFICATE
+    COVID_TEST_RESULT
+    INSURANCE_DOCUMENT
+    OTHER
 }

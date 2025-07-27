@@ -120,7 +120,7 @@ export default function Dashboard() {
 											className="p-3 bg-slate-50 dark:bg-slate-700/50 rounded-lg"
 										>
 											<p className="font-medium text-slate-900 dark:text-slate-100">
-												Dr. {appointment.doctor.name}
+												{appointment.doctor.name}
 											</p>
 											<p className="text-sm text-slate-600 dark:text-slate-400">
 												{formatDate(appointment.proposedAt)}
