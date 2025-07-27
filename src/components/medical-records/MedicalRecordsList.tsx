@@ -28,75 +28,150 @@ const recordTypeConfigs = {
 		title: "Blood Pressure",
 		icon: <Activity className="w-5 h-5" />,
 		color: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200",
-		formatValue: (value: any) => `${value.systolic}/${value.diastolic} mmHg`,
+		formatValue: (value: any) => {
+			if (
+				!value ||
+				value.systolic === undefined ||
+				value.diastolic === undefined
+			) {
+				return "No data available";
+			}
+			return `${value.systolic}/${value.diastolic} mmHg`;
+		},
 	},
 	heart_rate: {
 		title: "Heart Rate",
 		icon: <Heart className="w-5 h-5" />,
 		color: "bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-200",
-		formatValue: (value: any) => `${value.rate} bpm`,
+		formatValue: (value: any) => {
+			if (!value || value.rate === undefined) {
+				return "No data available";
+			}
+			return `${value.rate} bpm`;
+		},
 	},
 	blood_sugar: {
 		title: "Blood Sugar",
 		icon: <Droplet className="w-5 h-5" />,
 		color: "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200",
-		formatValue: (value: any) => `${value.level} mg/dL`,
+		formatValue: (value: any) => {
+			if (!value || value.level === undefined) {
+				return "No data available";
+			}
+			return `${value.level} mg/dL`;
+		},
 	},
 	cholesterol: {
 		title: "Cholesterol",
 		icon: <Activity className="w-5 h-5" />,
 		color:
 			"bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200",
-		formatValue: (value: any) =>
-			`Total: ${value.total}, LDL: ${value.ldl}, HDL: ${value.hdl}, Triglycerides: ${value.triglycerides}`,
+		formatValue: (value: any) => {
+			if (
+				!value ||
+				value.total === undefined ||
+				value.ldl === undefined ||
+				value.hdl === undefined ||
+				value.triglycerides === undefined
+			) {
+				return "No data available";
+			}
+			return `Total: ${value.total}, LDL: ${value.ldl}, HDL: ${value.hdl}, Triglycerides: ${value.triglycerides}`;
+		},
 	},
 	body_temperature: {
 		title: "Body Temperature",
 		icon: <Thermometer className="w-5 h-5" />,
 		color:
 			"bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200",
-		formatValue: (value: any) => `${value.temperature}${value.unit}`,
+		formatValue: (value: any) => {
+			if (
+				!value ||
+				value.temperature === undefined ||
+				value.unit === undefined
+			) {
+				return "No data available";
+			}
+			return `${value.temperature}${value.unit}`;
+		},
 	},
 	oxygen_saturation: {
 		title: "Oxygen Saturation",
 		icon: <Activity className="w-5 h-5" />,
 		color: "bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-200",
-		formatValue: (value: any) => `${value.saturation}%`,
+		formatValue: (value: any) => {
+			if (!value || value.saturation === undefined) {
+				return "No data available";
+			}
+			return `${value.saturation}%`;
+		},
 	},
 	weight: {
 		title: "Weight",
 		icon: <Scale className="w-5 h-5" />,
 		color: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200",
-		formatValue: (value: any) => `${value.weight} kg`,
+		formatValue: (value: any) => {
+			if (!value || value.weight === undefined) {
+				return "No data available";
+			}
+			return `${value.weight} kg`;
+		},
 	},
 	height: {
 		title: "Height",
 		icon: <Ruler className="w-5 h-5" />,
 		color:
 			"bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200",
-		formatValue: (value: any) => `${value.height} cm`,
+		formatValue: (value: any) => {
+			if (!value || value.height === undefined) {
+				return "No data available";
+			}
+			return `${value.height} cm`;
+		},
 	},
 	bmi: {
 		title: "BMI",
 		icon: <Calculator className="w-5 h-5" />,
 		color:
 			"bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200",
-		formatValue: (value: any) => `${value.bmi}`,
+		formatValue: (value: any) => {
+			if (!value || value.bmi === undefined) {
+				return "No data available";
+			}
+			return `${value.bmi}`;
+		},
 	},
 	current_medications: {
 		title: "Current Medications",
 		icon: <Pill className="w-5 h-5" />,
 		color:
 			"bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200",
-		formatValue: (value: any) =>
-			`${value.medication}, ${value.dose}, ${value.frequency}`,
+		formatValue: (value: any) => {
+			if (
+				!value ||
+				value.medication === undefined ||
+				value.dose === undefined ||
+				value.frequency === undefined
+			) {
+				return "No data available";
+			}
+			return `${value.medication}, ${value.dose}, ${value.frequency}`;
+		},
 	},
 	past_illnesses: {
 		title: "Past Illnesses",
 		icon: <FileText className="w-5 h-5" />,
 		color: "bg-slate-100 text-slate-800 dark:bg-slate-900 dark:text-slate-200",
-		formatValue: (value: any) =>
-			`${value.condition}, diagnosed ${value.diagnosed}`,
+		formatValue: (value: any) => {
+			if (
+				!value ||
+				value.condition === undefined ||
+				value.diagnosed === undefined
+			) {
+				return "No data available";
+			}
+			return `${value.condition}, diagnosed ${value.diagnosed}`;
+		},
 	},
 };
 

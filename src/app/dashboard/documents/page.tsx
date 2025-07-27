@@ -115,14 +115,14 @@ export default function DocumentsPage() {
 			},
 			Icon: <Activity className="w-4 h-4" />,
 		},
-		{
-			label: "Take Photo",
-			onClick: () => {
-				console.log("Take photo clicked");
-				toast.info("Camera functionality coming soon!");
-			},
-			Icon: <Camera className="w-4 h-4" />,
-		},
+		// {
+		// 	label: "Take Photo",
+		// 	onClick: () => {
+		// 		console.log("Take photo clicked");
+		// 		toast.info("Camera functionality coming soon!");
+		// 	},
+		// 	Icon: <Camera className="w-4 h-4" />,
+		// },
 	];
 
 	return (

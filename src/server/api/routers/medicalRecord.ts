@@ -16,7 +16,7 @@ const medicalRecordSchema = z.object({
 		"current_medications",
 		"past_illnesses",
 	]),
-	value: z.string(),
+	value: z.any(), // Accept any object structure for the value
 	unit: z.string().optional(),
 	notes: z.string().optional(),
 	recordedAt: z.date().optional(),
@@ -30,11 +30,25 @@ export const medicalRecordRouter = createTRPCRouter({
 			orderBy: { updatedAt: "desc" },
 		});
 
-		// Parse the JSON values
-		return records.map((record) => ({
-			...record,
-			value: JSON.parse(record.value),
-		}));
+		// Parse the JSON values with error handling
+		return records.map((record) => {
+			try {
+				return {
+					...record,
+					value: JSON.parse(record.value),
+				};
+			} catch (error) {
+				console.error(
+					`Failed to parse value for record ${record.id}:`,
+					record.value,
+					error,
+				);
+				return {
+					...record,
+					value: {}, // Return empty object as fallback
+				};
+			}
+		});
 	}),
 
 	// Get a specific medical record by key
@@ -52,10 +66,22 @@ export const medicalRecordRouter = createTRPCRouter({
 
 			if (!record) return null;
 
-			return {
-				...record,
-				value: JSON.parse(record.value),
-			};
+			try {
+				return {
+					...record,
+					value: JSON.parse(record.value),
+				};
+			} catch (error) {
+				console.error(
+					`Failed to parse value for record ${record.id}:`,
+					record.value,
+					error,
+				);
+				return {
+					...record,
+					value: {}, // Return empty object as fallback
+				};
+			}
 		}),
 
 	// Create or update a medical record

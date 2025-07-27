@@ -4,6 +4,39 @@ import { Input } from "@/components/ui/input";
 import { api } from "@/trpc/react";
 import { toast } from "sonner";
 
+// Predefined list of diseases for autocomplete
+const PREDEFINED_DISEASES = [
+	"Asthma",
+	"Diabetes (Type 1 or Type 2)",
+	"Hypertension (High Blood Pressure)",
+	"High Cholesterol",
+	"Heart Disease",
+	"Arthritis (e.g. Osteoarthritis, Rheumatoid Arthritis)",
+	"Thyroid Disorders (Hypothyroidism, Hyperthyroidism)",
+	"Chronic Kidney Disease",
+	"Epilepsy",
+	"Migraine",
+	"Depression",
+	"Anxiety Disorders",
+	"Bipolar Disorder",
+	"Schizophrenia",
+	"Chronic Obstructive Pulmonary Disease (COPD)",
+	"Cancer (Specify Type if Needed)",
+	"HIV/AIDS",
+	"Celiac Disease",
+	"Crohn's Disease",
+	"Ulcerative Colitis",
+	"Psoriasis",
+	"Lupus",
+	"Multiple Sclerosis",
+	"Parkinson's Disease",
+	"Alzheimer's or Other Dementia",
+	"Obesity",
+	"Sleep Apnea",
+	"Polycystic Ovary Syndrome (PCOS)",
+	"Tuberculosis (If Previously Diagnosed/Treated)",
+];
+
 interface MedicalRecordFormProps {
 	isOpen: boolean;
 	onClose: () => void;
@@ -205,8 +238,9 @@ const recordTypeConfigs = {
 			{
 				key: "condition",
 				label: "Condition",
-				type: "text",
-				placeholder: "Condition name",
+				type: "autocomplete",
+				placeholder: "Start typing a condition name...",
+				options: PREDEFINED_DISEASES,
 			},
 			{
 				key: "diagnosed",
@@ -234,8 +268,10 @@ export function MedicalRecordForm({
 		return {};
 	});
 	const [notes, setNotes] = useState(initialData?.notes || "");
-
-	const upsertMutation = api.medicalRecord.upsert.useMutation({
+	
+	// Autocomplete state
+	const [showSuggestions, setShowSuggestions] = useState(false);
+	const [filteredSuggestions, setFilteredSuggestions] = useState<string[]>([]);	const upsertMutation = api.medicalRecord.upsert.useMutation({
 		onSuccess: () => {
 			toast.success("Medical record saved successfully");
 			onSuccess?.();
@@ -267,6 +303,14 @@ export function MedicalRecordForm({
 			return;
 		}
 
+		// Validate autocomplete fields (diseases must be from predefined list)
+		if (recordType === "past_illnesses" && formData.condition) {
+			if (!PREDEFINED_DISEASES.includes(formData.condition)) {
+				toast.error("Please select a condition from the suggested list");
+				return;
+			}
+		}
+
 		upsertMutation.mutate({
 			key: recordType as
 				| "blood_pressure"
@@ -280,7 +324,7 @@ export function MedicalRecordForm({
 				| "bmi"
 				| "current_medications"
 				| "past_illnesses",
-			value: JSON.stringify(formData),
+			value: formData,
 			unit: config.unit,
 			notes: notes || undefined,
 		});
@@ -291,6 +335,25 @@ export function MedicalRecordForm({
 			...prev,
 			[fieldKey]: value,
 		}));
+	};
+
+	const handleAutocompleteChange = (fieldKey: string, value: string) => {
+		handleFieldChange(fieldKey, value);
+
+		if (value.length > 0) {
+			const filtered = PREDEFINED_DISEASES.filter((disease) =>
+				disease.toLowerCase().includes(value.toLowerCase()),
+			);
+			setFilteredSuggestions(filtered);
+			setShowSuggestions(true);
+		} else {
+			setShowSuggestions(false);
+		}
+	};
+
+	const handleSuggestionClick = (fieldKey: string, suggestion: string) => {
+		handleFieldChange(fieldKey, suggestion);
+		setShowSuggestions(false);
 	};
 
 	return (
@@ -328,6 +391,47 @@ export function MedicalRecordForm({
 											</option>
 										))}
 								</select>
+							) : field.type === "autocomplete" ? (
+								<div className="relative">
+									<Input
+										type="text"
+										placeholder={field.placeholder}
+										value={formData[field.key] || ""}
+										onChange={(e) => handleAutocompleteChange(field.key, e.target.value)}
+										onFocus={() => {
+											if (formData[field.key]) {
+												const filtered = PREDEFINED_DISEASES.filter(disease =>
+													disease.toLowerCase().includes(formData[field.key].toLowerCase())
+												);
+												setFilteredSuggestions(filtered);
+												setShowSuggestions(true);
+											}
+										}}
+										onBlur={() => {
+											// Delay hiding suggestions to allow for clicks
+											setTimeout(() => setShowSuggestions(false), 300);
+										}}
+										required
+									/>
+									{showSuggestions && filteredSuggestions.length > 0 && (
+										<div className="absolute z-10 w-full mt-1 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md shadow-lg max-h-48 overflow-y-auto">
+											{filteredSuggestions.map((suggestion, index) => (
+												<button
+													key={index}
+													type="button"
+													className="w-full px-3 py-2 text-left hover:bg-slate-100 dark:hover:bg-slate-600 text-slate-900 dark:text-slate-100 first:rounded-t-md last:rounded-b-md"
+													onMouseDown={(e) => {
+														// Prevent blur event when clicking
+														e.preventDefault();
+													}}
+													onClick={() => handleSuggestionClick(field.key, suggestion)}
+												>
+													{suggestion}
+												</button>
+											))}
+										</div>
+									)}
+								</div>
 							) : (
 								<Input
 									type={field.type}
