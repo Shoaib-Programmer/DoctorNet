@@ -41,7 +41,6 @@ export function DocumentList({ documents, onDelete, onView }: DocumentListProps)
 
   const formatCategory = (category: string) => {
     const categoryMap: Record<string, string> = {
-      GENERAL: "General",
       XRAY: "X-rays",
       MRI_CT_SCAN: "MRI / CT Scans",
       ULTRASOUND_REPORT: "Ultrasound Reports",

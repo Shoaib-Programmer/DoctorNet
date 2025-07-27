@@ -176,7 +176,7 @@ model Document {
     mimeType    String
     url         String   // Vercel Blob URL
     description String?
-    category    DocumentCategory @default(GENERAL)
+    category    DocumentCategory @default(OTHER)
     uploadedAt  DateTime @default(now())
     updatedAt   DateTime @updatedAt
     
@@ -184,7 +184,6 @@ model Document {
 }
 
 enum DocumentCategory {
-    GENERAL
     XRAY
     MRI_CT_SCAN
     ULTRASOUND_REPORT

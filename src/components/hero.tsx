@@ -1,6 +1,7 @@
 import { MoveRight } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 interface HeroProps {
 	session: any;
@@ -34,7 +35,7 @@ function Hero({ session }: HeroProps) {
 						</div>
 					</div>
 					<div className="flex justify-center lg:justify-center">
-						<div className="bg-muted rounded-md w-87 aspect-[4/5]"></div>
+						<Image src="/doctor.png" alt="Doctor" className="bg-transparent rounded-md" width="435" height="435"></Image>
 					</div>
 				</div>
 			</div>
