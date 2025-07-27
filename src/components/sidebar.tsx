@@ -71,7 +71,7 @@ const navigationItems: NavigationItem[] = [
 		name: "Medical Records",
 		icon: FileText,
 		href: "/dashboard/documents",
-		badge: "3",
+		// badge: "3",
 	},
 	// {
 	//   id: "notifications",
@@ -266,20 +266,20 @@ export function Sidebar({ className = "", userName, onLogout }: SidebarProps) {
 				</div>
 
 				{/* Search Bar */}
-				<div
+				{/* <div
 					className={`px-4 transition-all duration-500 ease-out overflow-hidden ${
 						isCollapsed ? "py-0 max-h-0 opacity-0" : "py-3 max-h-20 opacity-100"
 					}`}
-				>
-					<div className="relative">
+				> */}
+					{/* <div className="relative">
 						<Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-3.5 w-3.5 text-emerald-400 dark:text-emerald-300 transition-colors duration-300" />
 						<input
 							type="text"
 							placeholder="Search..."
 							className="w-full pl-9 pr-4 py-2 bg-gradient-to-r from-slate-50 to-emerald-50/30 dark:from-slate-800 dark:to-emerald-900/30 border border-slate-200 dark:border-slate-600 rounded-lg text-sm placeholder-slate-400 dark:placeholder-slate-500 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-400 dark:focus:ring-emerald-500 focus:border-emerald-300 dark:focus:border-emerald-400 focus:bg-white dark:focus:bg-slate-800 focus:shadow-md transition-all duration-300 ease-out hover:shadow-sm"
 						/>
-					</div>
-				</div>
+					</div> */}
+				{/* </div> */}
 
 				{/* Navigation */}
 				<nav className="flex-1 px-3 py-2 overflow-y-auto scrollbar-thin scrollbar-thumb-emerald-200 scrollbar-track-transparent">

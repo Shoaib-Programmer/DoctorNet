@@ -153,7 +153,7 @@ export function AppointmentCard({
 							<X className="w-4 h-4 mr-1" />
 							Cancel
 						</Button>
-						<Button
+						{/* <Button
 							variant="outline"
 							size="sm"
 							onClick={() => onNegotiate?.(appointment.id)}
@@ -161,7 +161,7 @@ export function AppointmentCard({
 						>
 							<MessageCircle className="w-4 h-4 mr-1" />
 							Negotiate
-						</Button>
+						</Button> */}
 					</>
 				)}
 
