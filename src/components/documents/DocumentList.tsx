@@ -33,7 +33,7 @@ export function DocumentList({ documents, onDelete, onView }: DocumentListProps)
       case "COVID_TEST_RESULT":
         return "bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200";
       case "INSURANCE_DOCUMENT":
-        return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200";
+        // return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200";
       default:
         return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200";
     }

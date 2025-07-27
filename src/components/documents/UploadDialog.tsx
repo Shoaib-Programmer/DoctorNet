@@ -10,13 +10,12 @@ interface UploadDialogProps {
 export function UploadDialog({ isOpen, onClose, onUpload }: UploadDialogProps) {
   const [file, setFile] = useState<File | null>(null);
   const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("GENERAL");
+  const [category, setCategory] = useState("");
   const [isUploading, setIsUploading] = useState(false);
   const [dragActive, setDragActive] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const categories = [
-    { value: "GENERAL", label: "General" },
     { value: "XRAY", label: "X-Ray" },
     { value: "MRI_CT_SCAN", label: "MRI / CT Scans" },
     { value: "ULTRASOUND_REPORT", label: "Ultrasound Reports" },
@@ -75,7 +74,7 @@ export function UploadDialog({ isOpen, onClose, onUpload }: UploadDialogProps) {
   const handleClose = () => {
     setFile(null);
     setDescription("");
-    setCategory("GENERAL");
+    setCategory("");
     setIsUploading(false);
     onClose();
   };
@@ -90,7 +89,6 @@ export function UploadDialog({ isOpen, onClose, onUpload }: UploadDialogProps) {
 
   const getPlaceholderForCategory = (category: string) => {
     const placeholders: Record<string, string> = {
-      GENERAL: "Add a description for this document...",
       XRAY: "e.g., Chest X-ray, date of examination, findings...",
       MRI_CT_SCAN: "e.g., Brain MRI, CT scan of abdomen, date, findings...",
       ULTRASOUND_REPORT: "e.g., Pregnancy ultrasound, abdominal ultrasound...",
@@ -202,7 +200,11 @@ export function UploadDialog({ isOpen, onClose, onUpload }: UploadDialogProps) {
               value={category}
               onChange={(e) => setCategory(e.target.value)}
               className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+              required
             >
+              <option value="" disabled>
+                Choose a category
+              </option>
               {categories.map((cat) => (
                 <option key={cat.value} value={cat.value}>
                   {cat.label}
@@ -237,7 +239,7 @@ export function UploadDialog({ isOpen, onClose, onUpload }: UploadDialogProps) {
             </button>
             <button
               type="submit"
-              disabled={!file || isUploading}
+              disabled={!file || !category || isUploading}
               className="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               {isUploading ? "Uploading..." : "Upload"}
