@@ -1,29 +1,65 @@
-# Create T3 App
+# 🩺 DoctorNet
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+**Welcome to DoctorNet**, your all-in-one healthcare assistant.  
+We are **Sarthak** and **Shoaib**, the creators of this repository, and this is our submission for the **Boot.dev Hackathon**.
 
-## What's next? How do I make an app with this?
+---
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+## Live Demo
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+Access the app here: [https://doctor-net.vercel.app/](https://doctor-net.vercel.app/)
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+---
 
-## Learn More
+## What is DoctorNet?
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+DoctorNet is our vision for a smarter, more connected healthcare platform. It allows patients to:
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+- Book and cancel medical appointments  
+- Upload and manage personal medical records  
+- Get expert symptom-based guidance from an AI chatbot  
+- Connect directly with doctors via WhatsApp or in-app features  
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+Our long-term goal is to **collaborate with local doctors and hospitals**, expanding city-wide, and eventually nationwide or globally.
 
-## How do I deploy this?
+---
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+## Current Features
+
+### 1. Appointments  
+- View a list of available (fake) doctors  
+- Book and cancel **dummy** appointments  
+- Backend-ready for integration with real doctors in the future
+
+### 2. Medical Information Hub  
+- Upload images of prescriptions, reports, and test results  
+- Type in medical history and data (blood pressure, conditions, etc.)  
+- Saved securely to your account for easy viewing by authorized doctors  
+> This is a **fully functional** feature, not a demo
+
+### 3. Expert Help (Chatbot Assistant)  
+- Our **AI-powered chatbot** asks about your symptoms, severity, and duration  
+- Suggests possible diagnoses  
+- Recommends next steps:  
+  - Message or call a doctor (during supported hours)  
+  - Book an appointment directly  
+> This is a **fully functional** feature, not a demo
+
+---
+
+## The Vision
+
+We aim to create a **seamless healthcare network**, where:
+- Patients have control over their medical data
+- Doctors can access patient history instantly
+- Referrals and consultations happen faster
+- Medical care becomes more accessible and organized
+
+---
+
+## Thank You
+
+Thank you for your time and consideration.  
+We hope you enjoy exploring the **future of medicine** with DoctorNet.
+
+— *Sarthak & Shoaib*
