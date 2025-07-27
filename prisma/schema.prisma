@@ -64,6 +64,7 @@ model User {
     accounts      Account[]
     sessions      Session[]
     posts         Post[]
+    appointments  Appointment[]
 }
 
 model VerificationToken {
@@ -72,4 +73,79 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+model Doctor {
+    id          String   @id @default(cuid())
+    name        String
+    specialty   String
+    email       String   @unique
+    phone       String?
+    bio         String?
+    image       String?
+    isAvailable Boolean  @default(true)
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    
+    appointments Appointment[]
+    availability DoctorAvailability[]
+}
+
+model DoctorAvailability {
+    id        String   @id @default(cuid())
+    doctorId  String
+    dayOfWeek Int      // 0-6 (Sunday to Saturday)
+    startTime String   // "09:00"
+    endTime   String   // "17:00"
+    
+    doctor Doctor @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+    
+    @@unique([doctorId, dayOfWeek])
+}
+
+model Appointment {
+    id          String            @id @default(cuid())
+    patientId   String
+    doctorId    String
+    proposedAt  DateTime
+    status      AppointmentStatus @default(PENDING)
+    notes       String?
+    createdAt   DateTime          @default(now())
+    updatedAt   DateTime          @updatedAt
+    
+    patient User   @relation(fields: [patientId], references: [id], onDelete: Cascade)
+    doctor  Doctor @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+    
+    negotiations AppointmentNegotiation[]
+}
+
+model AppointmentNegotiation {
+    id            String                    @id @default(cuid())
+    appointmentId String
+    proposedBy    NegotiationProposedBy
+    proposedAt    DateTime
+    message       String?
+    status        NegotiationStatus        @default(PENDING)
+    createdAt     DateTime                 @default(now())
+    
+    appointment Appointment @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
+}
+
+enum AppointmentStatus {
+    PENDING
+    CONFIRMED
+    CANCELLED
+    COMPLETED
+    NEGOTIATING
+}
+
+enum NegotiationProposedBy {
+    PATIENT
+    DOCTOR
+}
+
+enum NegotiationStatus {
+    PENDING
+    ACCEPTED
+    DECLINED
 }

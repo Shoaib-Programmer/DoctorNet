@@ -3,6 +3,7 @@ import "@/styles/globals.css";
 import type { Metadata, Viewport } from "next";
 import { Geist } from "next/font/google";
 import { SessionProvider } from "next-auth/react";
+import { Toaster } from "sonner";
 
 import { TRPCReactProvider } from "@/trpc/react";
 
@@ -32,6 +33,7 @@ export default function RootLayout({
 			<body>
 				<SessionProvider>
 					<TRPCReactProvider>{children}</TRPCReactProvider>
+					<Toaster richColors position="top-right" />
 				</SessionProvider>
 			</body>
 		</html>
