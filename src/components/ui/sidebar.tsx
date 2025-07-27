@@ -7,7 +7,6 @@ import {
   LogOut,
   Menu,
   X,
-  ChevronLeft,
   ChevronRight,
   BarChart3,
   FileText,
@@ -53,6 +52,8 @@ interface NavigationItem {
 
 interface SidebarProps {
   className?: string;
+  userName?: string | null;
+  onLogout?: () => void;
 }
 
 // Updated navigation items - remove logout from here
@@ -78,10 +79,32 @@ const navigationItems: NavigationItem[] = [
   { id: "help", name: "Help & Support", icon: HelpCircle, href: "/help" },
 ];
 
-export function Sidebar({ className = "" }: SidebarProps) {
+export function Sidebar({ className = "", userName, onLogout }: SidebarProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [activeItem, setActiveItem] = useState("dashboard");
+
+  // Helper functions for user display
+  const getUserDisplayName = () => {
+    if (!userName) return "Guest User";
+    return userName;
+  };
+
+  const getUserInitials = () => {
+    if (!userName) return "GU";
+    const names = userName.split(" ").filter((name: string) => name.length > 0);
+    if (names.length >= 2) {
+      const firstName = names[0];
+      const lastName = names[names.length - 1];
+      if (firstName && lastName) {
+        return `${firstName[0] || ''}${lastName[0] || ''}`.toUpperCase();
+      }
+    }
+    if (names[0] && names[0].length >= 2) {
+      return names[0].substring(0, 2).toUpperCase();
+    }
+    return names[0]?.[0]?.toUpperCase() || "GU";
+  };
 
   // Auto-open sidebar on desktop
   useEffect(() => {
@@ -102,6 +125,11 @@ export function Sidebar({ className = "" }: SidebarProps) {
   const toggleCollapse = () => setIsCollapsed(!isCollapsed);
 
   const handleItemClick = (itemId: string) => {
+    if (itemId === "logout" && onLogout) {
+      onLogout();
+      return;
+    }
+    
     setActiveItem(itemId);
     if (window.innerWidth < 768) {
       setIsOpen(false);
@@ -284,18 +312,18 @@ export function Sidebar({ className = "" }: SidebarProps) {
             <div className={`flex items-center transition-all duration-500 ease-out hover:scale-105 ${isCollapsed ? 'justify-center' : 'px-3 py-2 rounded-xl bg-white/70 dark:bg-slate-800/70 hover:bg-white dark:hover:bg-slate-800 hover:shadow-md'}`}>
               <div className="relative">
                 <div className="w-9 h-9 bg-gradient-to-br from-emerald-400 to-emerald-600 dark:from-emerald-300 dark:to-emerald-500 rounded-full flex items-center justify-center shadow-md transition-all duration-300 hover:shadow-lg">
-                  <span className="text-white dark:text-slate-900 font-bold text-sm">JD</span>
+                  <span className="text-white dark:text-slate-900 font-bold text-sm">{getUserInitials()}</span>
                 </div>
                 <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-400 dark:bg-green-300 rounded-full border-2 border-white dark:border-slate-900 shadow-sm animate-pulse" />
               </div>
               
               <div className={`flex-1 min-w-0 ml-3 transition-all duration-500 ease-out overflow-hidden ${isCollapsed ? 'max-w-0 opacity-0' : 'max-w-full opacity-100'}`}>
                 <p className="text-sm font-semibold text-slate-800 dark:text-slate-100 truncate">
-                  Dr. John Doe
+                  {getUserDisplayName()}
                 </p>
-                <p className="text-xs text-emerald-600 dark:text-emerald-400 truncate font-medium">
+                {/* <p className="text-xs text-emerald-600 dark:text-emerald-400 truncate font-medium">
                   Healthcare Admin
-                </p>
+                </p> */}
               </div>
             </div>
           </div>
