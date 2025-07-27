@@ -1,4 +1,5 @@
 import { MoveRight } from "lucide-react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 interface HeroProps {
@@ -21,9 +22,11 @@ function Hero({ session }: HeroProps) {
               </p>
             </div>
             <div className="flex flex-row gap-4">
-              <Button size="lg" className="gap-4 bg-emerald-500 hover:bg-emerald-600 text-white">
-                {session ? "Go to Dashboard" : "Sign up here"} <MoveRight className="w-4 h-4" />
-              </Button>
+              <Link href={session ? "/dashboard" : "/api/auth/signup"}>
+                <Button size="lg" className="gap-4 bg-emerald-500 hover:bg-emerald-600 text-white">
+                  {session ? "Go to Dashboard" : "Sign up here"} <MoveRight className="w-4 h-4" />
+                </Button>
+              </Link>
             </div>
           </div>
           <div className="flex justify-center lg:justify-center">
