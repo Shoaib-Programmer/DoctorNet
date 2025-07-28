@@ -57,19 +57,19 @@ Use the examples below to test the **Expert Help Chatbot**:
   - Do you have a headache?
   - Are you sensitive to light or sound?
   - Any blurred or double vision?
-  - Do you feel nauseous or have you vomited?
+  - Are you feeling dizzy or lightheaded?
 - Severity: **Moderate** or **Severe**
-- Duration: **More than a day**
+- Duration: **Within the hour, within the day, within the week or recurring**
 
 ### Pneumonia
 - Select: **Chest**
-- Answer "Yes" to at least **two** of the following:
+- Answer "Yes" to at least **three** of the following:
   - Do you have a persistent cough?
   - Are you coughing up mucus or blood?
   - Are you having difficulty breathing?
   - Do you feel chest pain or tightness?
 - Severity: **Moderate** or **Severe**
-- Duration: **More than 3 days**
+- Duration: **Within 3 days, within the week or within the month**
 
 ---
 
