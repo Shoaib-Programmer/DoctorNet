@@ -330,8 +330,9 @@ export default function Expert() {
 		return Array.from(expertSymptoms);
 	};
 
-	const findMatchingConditions = () => {
-		if (!selectedBodyPart || !severity || !duration) return [];
+	const findMatchingConditions = (overrideDuration?: Duration) => {
+		const currentDuration = overrideDuration || duration;
+		if (!selectedBodyPart || !severity || !currentDuration) return [];
 
 		const conditions = expertData.filter(
 			(condition: ExpertCondition) => condition.body_part === selectedBodyPart,
@@ -358,32 +359,38 @@ export default function Expert() {
 			}
 		});
 
+		// Count how many positive symptoms the user actually has
+		const userPositiveSymptomCount = userSymptoms.length;
+
 		return conditions
 			.filter((condition: ExpertCondition) => {
 				// Check severity match
 				if (!condition.severity.includes(severity)) return false;
 
 				// Check duration match
-				if (!condition.duration.includes(duration)) return false;
+				if (!condition.duration.includes(currentDuration)) return false;
 
 				// Check symptom matches - updated for new JSON structure
 				// symptom_sets now contains single arrays, not multiple arrays
 				const symptomSet = condition.symptom_sets[0]; // Get the first (and only) symptom set
 				if (!symptomSet) return false; // Safety check
-				
+
 				const matches = symptomSet.filter((symptom) =>
 					mappedSymptoms.includes(symptom),
 				).length;
 
-				// Must meet the minimum match requirement
-				return matches >= condition.min_matches;
+				// Must meet the minimum match requirement AND user must have at least min_matches symptoms
+				return (
+					matches >= condition.min_matches &&
+					userPositiveSymptomCount >= condition.min_matches
+				);
 			})
 			.sort((a, b) => {
 				// Sort by how many symptoms match
 				const getMatchScore = (condition: ExpertCondition) => {
 					const symptomSet = condition.symptom_sets[0]; // Get the first (and only) symptom set
 					if (!symptomSet) return 0; // Safety check
-					
+
 					const matches = symptomSet.filter((symptom) =>
 						mappedSymptoms.includes(symptom),
 					).length;
@@ -454,7 +461,8 @@ export default function Expert() {
 				selectedDuration,
 		);
 
-		const matchingConditions = findMatchingConditions();
+		// Pass the selectedDuration directly to avoid state timing issues
+		const matchingConditions = findMatchingConditions(selectedDuration);
 
 		if (matchingConditions.length > 0) {
 			const condition = matchingConditions[0];

@@ -16,7 +16,13 @@
 			["headache", "blurred_vision", "nausea", "light_sensitivity", "dizziness"]
 		],
 		"severity": ["moderate", "severe"],
-		"duration": ["within_hour", "within_day", "within_3_days", "within_week", "recurring"],
+		"duration": [
+			"within_hour",
+			"within_day",
+			"within_3_days",
+			"within_week",
+			"recurring"
+		],
 		"min_matches": 2
 	},
 	{

@@ -108,9 +108,24 @@ export function Sidebar({ className = "", userName, onLogout }: SidebarProps) {
 	// Get active item based on current pathname
 	const getActiveItem = () => {
 		const currentPath = pathname;
-		const activeNavItem = navigationItems.find(
+
+		// First try exact match
+		let activeNavItem = navigationItems.find(
 			(item) => item.href === currentPath,
 		);
+
+		// If no exact match, find the best matching parent route
+		if (!activeNavItem) {
+			// Sort navigation items by href length (longest first) to get most specific match
+			const sortedItems = [...navigationItems].sort(
+				(a, b) => b.href.length - a.href.length,
+			);
+			activeNavItem = sortedItems.find(
+				(item) =>
+					currentPath.startsWith(item.href) && item.href !== "/dashboard",
+			);
+		}
+
 		return activeNavItem?.id || "dashboard";
 	};
 
